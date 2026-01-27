@@ -1,10 +1,14 @@
+import { getDictionary } from "@/i18n/get-dictionary";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 
-export default function PrivacyPage() {
+export default async function PrivacyPage({ params }: { params: Promise<{ lang: "ro" | "en" }> }) {
+    const { lang } = await params;
+    const dict = await getDictionary(lang);
+
     return (
         <main className="min-h-screen bg-background">
-            <Navbar />
+            <Navbar dict={dict.navbar} lang={lang} />
             <div className="container px-4 mx-auto py-32 text-zinc-300 max-w-4xl">
                 <h1 className="text-4xl font-bold text-white mb-8">Politica de Confidențialitate</h1>
 
@@ -43,7 +47,7 @@ export default function PrivacyPage() {
                     </section>
                 </div>
             </div>
-            <Footer />
+            <Footer dict={dict.footer} lang={lang} />
         </main>
     );
 }
