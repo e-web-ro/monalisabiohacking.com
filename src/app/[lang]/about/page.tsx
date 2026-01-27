@@ -1,15 +1,17 @@
-"use client";
+import { getDictionary } from "@/i18n/get-dictionary";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { About } from "@/components/sections/About";
 import { WhyChooseMe } from "@/components/sections/WhyChooseMe";
 import Image from "next/image";
-import { motion } from "framer-motion";
 
-export default function AboutPage() {
+export default async function AboutPage({ params }: { params: Promise<{ lang: "ro" | "en" }> }) {
+    const { lang } = await params;
+    const dict = await getDictionary(lang);
+
     return (
         <main className="min-h-screen bg-background">
-            <Navbar />
+            <Navbar dict={dict.navbar} lang={lang} />
 
             {/* Header */}
             <section className="pt-32 pb-16 bg-gradient-to-b from-secondary/50 to-background border-b border-border">
@@ -24,8 +26,8 @@ export default function AboutPage() {
             </section>
 
             {/* Main Content reusing components */}
-            <About />
-            <WhyChooseMe />
+            <About dict={dict.about} lang={lang} />
+            <WhyChooseMe dict={dict.why_choose} lang={lang} />
 
             {/* Additional Biography/Story Section if needed, for now standard components are quite rich */}
             <section className="py-24 bg-background relative overflow-hidden">
@@ -59,7 +61,7 @@ export default function AboutPage() {
                 </div>
             </section>
 
-            <Footer />
+            <Footer dict={dict.footer} lang={lang} />
         </main>
     );
 }
