@@ -37,9 +37,9 @@ export function Navbar({ dict, lang }: NavbarProps) {
     return (
         <nav className={cn(
             "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-transparent",
-            scrolled ? "bg-background/80 backdrop-blur-md border-border py-4" : "bg-transparent py-6"
+            (scrolled || mobileMenuOpen) ? "bg-background/98 backdrop-blur-md border-border py-4" : "bg-transparent py-6"
         )}>
-            <div className="container px-4 mx-auto flex items-center justify-between">
+            <div className="container px-4 mx-auto flex items-center justify-between relative z-50">
                 <Link href={`/${lang}`} className="text-2xl font-bold text-white tracking-tighter">
                     Monalisa<span className="text-primary">Biohacking</span>
                 </Link>
@@ -100,9 +100,8 @@ export function Navbar({ dict, lang }: NavbarProps) {
                 </button>
 
                 {/* Mobile Menu Overlay */}
-                {/* Mobile Menu Overlay */}
                 {mobileMenuOpen && (
-                    <div className="fixed inset-0 z-40 bg-secondary/95 backdrop-blur-xl md:hidden flex flex-col pt-24 px-6 animate-in slide-in-from-right duration-300">
+                    <div className="fixed inset-0 z-40 bg-background/98 backdrop-blur-xl md:hidden flex flex-col pt-32 px-6 animate-in slide-in-from-right duration-300">
                         <div className="flex flex-col gap-6 text-center">
                             <Link
                                 href={`/${lang}/about`}
