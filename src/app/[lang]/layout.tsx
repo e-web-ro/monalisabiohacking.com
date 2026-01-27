@@ -11,6 +11,15 @@ const outfit = Outfit({
   display: "swap",
 });
 
+export const metadata: Metadata = {
+  title: "Monalisa Biohacking",
+  description: "Consilier Nutriție Funcțională & Biohacking",
+  icons: {
+    icon: "/favicon.png",
+    apple: "/favicon.png",
+  },
+};
+
 export async function generateStaticParams() {
   return [{ lang: "ro" }, { lang: "en" }, { lang: "de" }];
 }
