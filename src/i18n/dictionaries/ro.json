@@ -1,0 +1,137 @@
+{
+    "navbar": {
+        "about": "Despre",
+        "services": "Servicii",
+        "blog": "Blog",
+        "contact": "Contact"
+    },
+    "hero": {
+        "badge": "Nou: Protocolul de Regenerare 2026",
+        "title1": "Biohacking pentru",
+        "title2": "Femeia Modernă",
+        "description": "Recâștigă-ți energia, echilibrează-ți hormonii și inversează procesul de îmbătrânire prin nutriție funcțională și știință aplicată.",
+        "cta_primary": "Începe Transformarea",
+        "cta_secondary": "Vezi Serviciile"
+    },
+    "features": {
+        "title": "Abordarea Mea",
+        "card1_title": "Energie Maximă",
+        "card1_desc": "Protocoale mitocondriale pentru a elimina oboseala cronică.",
+        "card2_title": "Claritate Mentală",
+        "card2_desc": "Nootropice naturale și strategii pentru focus neîntrerupt.",
+        "card3_title": "Optimizare Metabolică",
+        "card3_desc": "Reglarea glicemiei și flexibilitate metabolică reală."
+    },
+    "why_choose": {
+        "title": "De ce să mă alegi",
+        "title_accent": "pe mine?",
+        "card1_title": "Abordare personalizată",
+        "card1_desc": "Cred cu tărie că nu există soluții universale când vine vorba de sănătate. Fiecare persoană este unică, iar ceea ce funcționează pentru tine poate fi complet diferit de altcineva. De aceea, îți ofer o abordare 100% personalizată, adaptată stilului tău de viață.",
+        "card2_title": "Nutriție funcțională",
+        "card2_desc": "Nu vei primi o listă rigidă de alimente sau un meniu tipic. Aplic principiile nutriției funcționale pentru a înțelege cauzele profunde ale dezechilibrelor tale: digestie, inflamație, somn, stres, hormoni.",
+        "card3_title": "Integrare cu biohacking",
+        "card3_desc": "Biohacking nu este despre gadgeturi scumpe, ci despre obiceiuri inteligente și eficiente care îți pot schimba viața. Înveți cum să îți optimizezi energia, somnul, focusul și regenerarea prin pași simpli."
+    },
+    "about": {
+        "badge": "Despre Mine",
+        "title": "Misiunea Mea:",
+        "subtitle": "Echilibru & Longevitate",
+        "quote_img": "Sănătatea nu înseamnă restricție, ci libertate.",
+        "desc1": "Sunt Mona Lisa – consilier în nutriție, pasionată de biohacking, echilibru hormonal și longevitate conștientă.",
+        "desc2": "Am creat acest spațiu pentru femeile care își doresc mai mult decât o dietă. Pentru cele care vor să înțeleagă cum funcționează cu adevărat corpul lor.",
+        "quote_text": "Cred că la 50 sau 60 de ani poți avea energie ca la 30, dacă înveți să-ți asculți corpul și să-l susții corect.",
+        "cta": "Lucrează cu mine"
+    },
+    "services": {
+        "badge": "Investește în tine",
+        "title": "Serviciile",
+        "title_accent": "Noastre",
+        "subtitle": "Alege pachetul care se potrivește cel mai bine nevoilor tale actuale.",
+        "cta": "Rezervă Acum",
+        "popular": "Cel mai popular",
+        "items": {
+            "explorare": {
+                "title": "Apel Gratuit de explorare",
+                "description": "Discuție inițială pentru a ne cunoaște și a stabili obiectivele.",
+                "period": "o singură dată",
+                "features": [
+                    "Evaluare sumară",
+                    "Identificare obiective",
+                    "Q&A Scurt"
+                ]
+            },
+            "consultatie": {
+                "title": "Consultație Inițială",
+                "description": "Analiză detaliată a stilului de viață și a istoricului nutrițional.",
+                "period": "/ ședință",
+                "features": [
+                    "Anamneză completă",
+                    "Analiză jurnal alimentar",
+                    "Recomandări primare"
+                ]
+            },
+            "restart": {
+                "title": "Restart Nutrițional",
+                "description": "Program de 1 lună pentru resetarea obiceiurilor alimentare.",
+                "period": "/ program",
+                "badge": "Program 1 Lună",
+                "features": [
+                    "Plan personalizat",
+                    "4 Ședințe săptămânale",
+                    "Monitorizare constantă"
+                ]
+            },
+            "reset": {
+                "title": "RESET COMPLET",
+                "description": "Transformare profundă pe parcursul a 3 luni.",
+                "period": "/ program",
+                "badge": "Program 3 Luni",
+                "features": [
+                    "Tot ce include Restart",
+                    "Protocol Biohacking",
+                    "Suport prioritar",
+                    "Ajustări dinamice"
+                ]
+            },
+            "longeviq": {
+                "title": "LongevIQ™ – Optimizare",
+                "description": "Program premium de 6 luni pentru performanță totală și longevitate.",
+                "period": "/ program",
+                "badge": "Program 6 Luni",
+                "features": [
+                    "Biohacking Avansat",
+                    "Analiză analize sânge",
+                    "Plan suplimente",
+                    "Acces nelimitat WhatsApp"
+                ]
+            }
+        }
+    },
+    "testimonials": {
+        "title": "Ce spun",
+        "title_accent": "Clientele",
+        "subtitle": "Povești reale de transformare și vindecare."
+    },
+    "blog": {
+        "badge": "Educație & Resurse",
+        "title": "Ultimele Articole din",
+        "title_accent": "Blog",
+        "subtitle": "Explorăm împreună știința longevității, secretele peptidelor și strategii de nutriție.",
+        "cta_view_all": "Vezi toate articolele",
+        "cta_read": "Citește mai mult"
+    },
+    "footer": {
+        "desc": "Transformare reală prin nutriție funcțională și biohacking personalizat.",
+        "contact": "Contact",
+        "info": "Informații",
+        "terms": "Termeni și Condiții",
+        "privacy": "Politica de Confidențialitate",
+        "cookies": "Politica Cookies",
+        "rights": "Toate drepturile rezervate."
+    },
+    "common": {
+        "loading": "Se încarcă...",
+        "sessions": "Sesiuni de",
+        "back_home": "Înapoi la Home"
+    }
+}

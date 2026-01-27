@@ -1,0 +1,137 @@
+{
+    "navbar": {
+        "about": "About",
+        "services": "Services",
+        "blog": "Blog",
+        "contact": "Contact"
+    },
+    "hero": {
+        "badge": "New: Regeneration Protocol 2026",
+        "title1": "Biohacking for the",
+        "title2": "Modern Woman",
+        "description": "Regain your energy, balance your hormones, and reverse aging through functional nutrition and applied science.",
+        "cta_primary": "Start Transformation",
+        "cta_secondary": "View Services"
+    },
+    "features": {
+        "title": "My Approach",
+        "card1_title": "Maximum Energy",
+        "card1_desc": "Mitochondrial protocols to eliminate chronic fatigue.",
+        "card2_title": "Mental Clarity",
+        "card2_desc": "Natural nootropics and strategies for uninterrupted focus.",
+        "card3_title": "Metabolic Optimization",
+        "card3_desc": "Blood sugar regulation and true metabolic flexibility."
+    },
+    "why_choose": {
+        "title": "Why Choose",
+        "title_accent": "Me?",
+        "card1_title": "Personalized Approach",
+        "card1_desc": "I strongly believe there are no universal health solutions. Every person is unique. That's why I offer a 100% personalized approach, adapted to your lifestyle, goals, and pace.",
+        "card2_title": "Functional Nutrition",
+        "card2_desc": "You won't get a rigid food list. I apply functional nutrition principles to understand the root causes of your imbalances: digestion, inflammation, sleep, stress, hormones.",
+        "card3_title": "Biohacking Integration",
+        "card3_desc": "Biohacking isn't about expensive gadgets, but about smart, efficient habits that can change your life. Learn how to optimize your energy, sleep, focus, and regeneration."
+    },
+    "about": {
+        "badge": "About Me",
+        "title": "My Mission:",
+        "subtitle": "Balance & Longevity",
+        "quote_img": "Health is not restriction, it is freedom.",
+        "desc1": "I am Mona Lisa – nutrition counselor, passionate about biohacking, hormonal balance, and conscious longevity.",
+        "desc2": "I created this space for women who want more than just a diet. For those who want to truly understand how their body works.",
+        "quote_text": "I believe that at 50 or 60 you can have the energy of a 30-year-old if you learn to listen to your body and support it correctly.",
+        "cta": "Work with me"
+    },
+    "services": {
+        "badge": "Invest in yourself",
+        "title": "Our",
+        "title_accent": "Services",
+        "subtitle": "Choose the package that best fits your current needs.",
+        "cta": "Book Now",
+        "popular": "Most Popular",
+        "items": {
+            "explorare": {
+                "title": "Free Discovery Call",
+                "description": "Initial discussion to get to know each other and set goals.",
+                "period": "one time",
+                "features": [
+                    "Brief assessment",
+                    "Goal identification",
+                    "Short Q&A"
+                ]
+            },
+            "consultatie": {
+                "title": "Initial Consultation",
+                "description": "Detailed analysis of lifestyle and nutritional history.",
+                "period": "/ session",
+                "features": [
+                    "Complete anamnesis",
+                    "Food diary analysis",
+                    "Primary recommendations"
+                ]
+            },
+            "restart": {
+                "title": "Nutritional Restart",
+                "description": "1-month program to reset dietary habits.",
+                "period": "/ program",
+                "badge": "1 Month Program",
+                "features": [
+                    "Personalized plan",
+                    "4 Weekly sessions",
+                    "Constant monitoring"
+                ]
+            },
+            "reset": {
+                "title": "COMPLETE RESET",
+                "description": "Deep transformation over 3 months.",
+                "period": "/ program",
+                "badge": "3 Months Program",
+                "features": [
+                    "Everything in Restart",
+                    "Biohacking Protocol",
+                    "Priority support",
+                    "Dynamic adjustments"
+                ]
+            },
+            "longeviq": {
+                "title": "LongevIQ™ – Optimization",
+                "description": "Premium 6-month program for total performance and longevity.",
+                "period": "/ program",
+                "badge": "6 Months Program",
+                "features": [
+                    "Advanced Biohacking",
+                    "Blood panel analysis",
+                    "Supplement plan",
+                    "Unlimited WhatsApp access"
+                ]
+            }
+        }
+    },
+    "testimonials": {
+        "title": "What Clients",
+        "title_accent": "Say",
+        "subtitle": "Real stories of transformation and healing."
+    },
+    "blog": {
+        "badge": "Education & Resources",
+        "title": "Latest Articles from",
+        "title_accent": "Blog",
+        "subtitle": "Exploring the science of longevity, peptide secrets, and nutrition strategies together.",
+        "cta_view_all": "View all articles",
+        "cta_read": "Read more"
+    },
+    "footer": {
+        "desc": "Real transformation through functional nutrition and personalized biohacking.",
+        "contact": "Contact",
+        "info": "Information",
+        "terms": "Terms and Conditions",
+        "privacy": "Privacy Policy",
+        "cookies": "Cookies Policy",
+        "rights": "All rights reserved."
+    },
+    "common": {
+        "loading": "Loading...",
+        "sessions": "Sessions of",
+        "back_home": "Back to Home"
+    }
+}
