@@ -1,3 +1,4 @@
+import { getDictionary } from "@/i18n/get-dictionary";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { blogPosts } from "@/lib/blog-data";
@@ -21,6 +22,8 @@ export async function generateStaticParams() {
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
     const { slug } = await params;
     const post = blogPosts.find((p) => p.slug === slug);
+    const lang = "ro";
+    const dict = await getDictionary(lang);
 
     if (!post) {
         notFound();
@@ -28,7 +31,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
     return (
         <main className="min-h-screen bg-background">
-            <Navbar />
+            <Navbar dict={dict.navbar} lang={lang} />
 
             {/* Hero Header */}
             <div className="relative h-[60vh] min-h-[400px] w-full">
@@ -98,7 +101,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </div>
             </article>
 
-            <Footer />
+            <Footer dict={dict.footer} lang={lang} />
         </main>
     );
 }

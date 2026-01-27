@@ -1,3 +1,4 @@
+import { getDictionary } from "@/i18n/get-dictionary";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { blogPosts } from "@/lib/blog-data";
@@ -5,10 +6,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
 
-export default function BlogPage() {
+export default async function BlogPage() {
+    const lang = "ro";
+    const dict = await getDictionary(lang);
+
     return (
         <main className="min-h-screen bg-background">
-            <Navbar />
+            <Navbar dict={dict.navbar} lang={lang} />
 
             {/* Header */}
             <section className="pt-32 pb-16 bg-gradient-to-b from-secondary/50 to-background border-b border-border">
@@ -75,7 +79,7 @@ export default function BlogPage() {
                 </div>
             </section>
 
-            <Footer />
+            <Footer dict={dict.footer} lang={lang} />
         </main>
     );
 }
