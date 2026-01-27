@@ -30,7 +30,7 @@ export default async function BlogPage({ params }: { params: Promise<{ lang: str
             <section className="py-20">
                 <div className="container px-4 mx-auto">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {blogPosts.map((post) => (
+                        {(blogPosts[lang] || blogPosts.ro).map((post) => (
                             <article
                                 key={post.slug}
                                 className="group flex flex-col h-full bg-secondary/20 border border-border rounded-2xl overflow-hidden hover:border-primary/30 transition-all hover:bg-secondary/40"

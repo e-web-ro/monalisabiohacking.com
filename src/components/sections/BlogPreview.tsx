@@ -11,9 +11,9 @@ interface BlogPreviewProps {
 }
 
 export function BlogPreview({ dict, lang }: BlogPreviewProps) {
-    // Sortează articolele descrescător după dată (aproximativ, folosind indexul sau o logică simplă) 
-    // și ia primele 3
-    const recentPosts = blogPosts.slice(0, 3);
+    // Sortează articolele descrescător după dată și ia primele 3
+    const posts = blogPosts[lang] || blogPosts.ro;
+    const recentPosts = posts.slice(0, 3);
 
     return (
         <section id="blog" className="py-24 bg-background border-t border-border relative">

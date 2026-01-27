@@ -137,7 +137,8 @@
         "terms": "Terms and Conditions",
         "privacy": "Privacy Policy",
         "cookies": "Cookies Policy",
-        "rights": "All rights reserved."
+        "rights": "All rights reserved.",
+        "created_by": "Created by"
     },
     "common": {
         "loading": "Loading...",
@@ -204,5 +205,13 @@
         "share": "Share",
         "liked_article": "Liked the article?",
         "author_label": "Author"
+    },
+    "chat": {
+        "welcome": "Hi! I am the virtual AI assistant. Ask me about services, prices, peptides, or contact!",
+        "status": "Replies instantly",
+        "placeholder": "Write a question...",
+        "typing": "Typing...",
+        "default_answer": "I'm sorry, I don't have an exact answer for that in my database. Please write to Monalisa directly on WhatsApp for personalized details.",
+        "assistant_name": "Monalisa AI Assistant"
     }
 }

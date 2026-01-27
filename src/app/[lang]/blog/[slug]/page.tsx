@@ -19,7 +19,8 @@ export async function generateStaticParams() {
     const params: { lang: string; slug: string }[] = [];
 
     locales.forEach((lang) => {
-        blogPosts.forEach((post) => {
+        const posts = blogPosts[lang] || blogPosts.ro;
+        posts.forEach((post) => {
             params.push({ lang, slug: post.slug });
         });
     });
@@ -30,7 +31,8 @@ export async function generateStaticParams() {
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
     const { slug, lang: rawLang } = await params;
     const lang = rawLang as "ro" | "en" | "de";
-    const post = blogPosts.find((p) => p.slug === slug);
+    const posts = blogPosts[lang] || blogPosts.ro;
+    const post = posts.find((p) => p.slug === slug);
     const dict = await getDictionary(lang);
 
     if (!post) {

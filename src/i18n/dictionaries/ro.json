@@ -137,7 +137,8 @@
         "terms": "Termeni și Condiții",
         "privacy": "Politica de Confidențialitate",
         "cookies": "Politica Cookies",
-        "rights": "Toate drepturile rezervate."
+        "rights": "Toate drepturile rezervate.",
+        "created_by": "Realizat de"
     },
     "common": {
         "loading": "Se încarcă...",
@@ -204,5 +205,13 @@
         "share": "Distribuie",
         "liked_article": "Ți-a plăcut articolul?",
         "author_label": "Autor"
+    },
+    "chat": {
+        "welcome": "Bună! Sunt asistentul virtual AI. Întreabă-mă despre servicii, prețuri, peptide sau contact!",
+        "status": "Răspunde instant",
+        "placeholder": "Scrie o întrebare...",
+        "typing": "Scrie...",
+        "default_answer": "Îmi pare rău, nu am un răspuns exact pentru asta în baza mea de date. Te rog să îi scrii Monalisei direct pe WhatsApp pentru detalii personalizate.",
+        "assistant_name": "Monalisa AI Assistant"
     }
 }

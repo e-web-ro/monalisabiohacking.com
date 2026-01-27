@@ -137,7 +137,8 @@
         "terms": "Allgemeine Geschäftsbedingungen",
         "privacy": "Datenschutzrichtlinie",
         "cookies": "Cookie-Richtlinie",
-        "rights": "Alle Rechte vorbehalten."
+        "rights": "Alle Rechte vorbehalten.",
+        "created_by": "Realisiert von"
     },
     "common": {
         "loading": "Lädt...",
@@ -204,5 +205,13 @@
         "share": "Teilen",
         "liked_article": "Gefällt Ihnen der Artikel?",
         "author_label": "Autor"
+    },
+    "chat": {
+        "welcome": "Hallo! Ich bin der virtuelle KI-Assistent. Fragen Sie mich nach Dienstleistungen, Preisen, Peptiden oder Kontakt!",
+        "status": "Antwortet sofort",
+        "placeholder": "Schreiben Sie eine Frage...",
+        "typing": "Schreibt...",
+        "default_answer": "Es tut mir leid, ich habe darauf in meiner Datenbank keine genaue Antwort. Bitte schreiben Sie Monalisa direkt per WhatsApp für personalisierte Details.",
+        "assistant_name": "Monalisa KI-Assistent"
     }
 }

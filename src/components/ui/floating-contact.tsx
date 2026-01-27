@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X, Send, Phone, Mail, User, Bot, MessageSquare } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { chatKnowledge, defaultAnswer } from "@/lib/chat-knowledge";
+import { chatKnowledge } from "@/lib/chat-knowledge";
 import { cn } from "@/lib/utils";
 
 type Message = {
@@ -12,12 +12,17 @@ type Message = {
     timestamp: Date;
 };
 
-export function FloatingContact() {
+interface FloatingContactProps {
+    dict: any;
+    lang: string;
+}
+
+export function FloatingContact({ dict, lang }: FloatingContactProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
         {
             id: "welcome",
-            text: "Bună! Sunt asistentul virtual AI. Întreabă-mă despre servicii, prețuri, peptide sau contact!",
+            text: dict.chat.welcome,
             sender: "bot",
             timestamp: new Date()
         }
@@ -25,6 +30,19 @@ export function FloatingContact() {
     const [inputValue, setInputValue] = useState("");
     const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    // Update welcome message if language changes
+    useEffect(() => {
+        setMessages(prev => {
+            if (prev.length === 1 && prev[0].id === "welcome") {
+                return [{
+                    ...prev[0],
+                    text: dict.chat.welcome
+                }];
+            }
+            return prev;
+        });
+    }, [lang, dict.chat.welcome]);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -52,9 +70,11 @@ export function FloatingContact() {
         // AI Logic
         setTimeout(() => {
             const lowerInput = userMsg.text.toLowerCase();
-            let responseText = defaultAnswer;
+            let responseText = dict.chat.default_answer;
 
-            for (const entry of chatKnowledge) {
+            const knowledge = chatKnowledge[lang as keyof typeof chatKnowledge] || chatKnowledge.ro;
+
+            for (const entry of knowledge) {
                 if (entry.keywords.some(keyword => lowerInput.includes(keyword))) {
                     responseText = entry.answer;
                     break;
@@ -78,7 +98,7 @@ export function FloatingContact() {
             {/* Floating Actions Group */}
             <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-4 items-end">
 
-                {/* Quick Contact Buttons (Always visible or toggleable? Let's keep them visible for direct access) */}
+                {/* Quick Contact Buttons */}
                 <AnimatePresence>
                     {!isOpen && (
                         <motion.div
@@ -137,8 +157,8 @@ export function FloatingContact() {
                             <div className="flex items-center gap-3">
                                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                                 <div>
-                                    <h3 className="font-bold text-white text-sm">Monalisa AI Assistant</h3>
-                                    <p className="text-xs text-zinc-400">Răspunde instant</p>
+                                    <h3 className="font-bold text-white text-sm">{dict.chat.assistant_name}</h3>
+                                    <p className="text-xs text-zinc-400">{dict.chat.status}</p>
                                 </div>
                             </div>
                             <div className="flex gap-2">
@@ -173,7 +193,7 @@ export function FloatingContact() {
                                     )}>
                                         {msg.text}
                                         <p className="text-[10px] opacity-50 mt-1 text-right">
-                                            {msg.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                                            {msg.timestamp.toLocaleTimeString(lang, { hour: "2-digit", minute: "2-digit" })}
                                         </p>
                                     </div>
                                 </div>
@@ -200,7 +220,7 @@ export function FloatingContact() {
                                 type="text"
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
-                                placeholder="Scrie o întrebare..."
+                                placeholder={dict.chat.placeholder}
                                 className="flex-1 bg-zinc-900 border border-zinc-600 rounded-xl px-4 py-2 text-white text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 placeholder:text-zinc-600"
                             />
                             <button

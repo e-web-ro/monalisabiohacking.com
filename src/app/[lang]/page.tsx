@@ -9,7 +9,7 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { BlogPreview } from "@/components/sections/BlogPreview";
 import { Footer } from "@/components/layout/Footer";
 
-export default async function Home({ params }: { params: Promise<{ lang: "ro" | "en" }> }) {
+export default async function Home({ params }: { params: Promise<{ lang: "ro" | "en" | "de" }> }) {
   const { lang } = await params;
   const dict = await getDictionary(lang);
 

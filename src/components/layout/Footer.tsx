@@ -82,8 +82,14 @@ export function Footer({ dict, lang }: FooterProps) {
                     </div>
                 </div>
 
-                <div className="border-t border-border pt-8 text-center text-zinc-600 text-sm">
+                <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-zinc-600 text-sm">
                     <p>© {new Date().getFullYear()} Monalisa Biohacking. {dict.rights}</p>
+                    <p>
+                        {dict.created_by || "Realizat de"}{" "}
+                        <Link href="https://www.e-web.ro/" target="_blank" className="text-zinc-500 hover:text-primary transition-colors font-medium">
+                            e-web.ro
+                        </Link>
+                    </p>
                 </div>
             </div>
         </footer>
