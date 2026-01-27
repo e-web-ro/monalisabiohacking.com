@@ -3,7 +3,11 @@ import { Mail, Phone, MapPin, Send, Instagram, Facebook } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-export function ContactFormSection() {
+interface ContactFormSectionProps {
+    dict: any;
+}
+
+export function ContactFormSection({ dict }: ContactFormSectionProps) {
     return (
         <section className="py-20 relative overflow-hidden">
             {/* Background Glow */}
@@ -20,10 +24,9 @@ export function ContactFormSection() {
                         className="space-y-12"
                     >
                         <div>
-                            <h3 className="text-2xl font-bold text-white mb-6">Informații de Contact</h3>
+                            <h3 className="text-2xl font-bold text-white mb-6">{dict.contact_form.title}</h3>
                             <p className="text-zinc-400 mb-8 leading-relaxed">
-                                Răspund personal la toate mesajele în termen de 24-48 de ore.
-                                Pentru urgențe sau programări rapide, îmi puteți scrie pe WhatsApp.
+                                {dict.contact_form.subtitle}
                             </p>
 
                             <div className="space-y-6">
@@ -32,9 +35,9 @@ export function ContactFormSection() {
                                         <MapPin className="w-5 h-5 text-primary" />
                                     </div>
                                     <div>
-                                        <h4 className="text-white font-semibold mb-1">Locație</h4>
-                                        <p className="text-zinc-400">71717 Beilstein, Germany</p>
-                                        <p className="text-zinc-500 text-sm mt-1">Disponibilă și online, internațional</p>
+                                        <h4 className="text-white font-semibold mb-1">{dict.contact_form.location_title}</h4>
+                                        <p className="text-zinc-400">{dict.contact_form.location_desc}</p>
+                                        <p className="text-zinc-500 text-sm mt-1">{dict.contact_form.location_online}</p>
                                     </div>
                                 </div>
 
@@ -43,7 +46,7 @@ export function ContactFormSection() {
                                         <Phone className="w-5 h-5 text-primary" />
                                     </div>
                                     <div>
-                                        <h4 className="text-white font-semibold mb-1">Telefon / WhatsApp</h4>
+                                        <h4 className="text-white font-semibold mb-1">{dict.contact_form.phone_title}</h4>
                                         <a href="tel:+4915750123117" className="text-zinc-400 hover:text-white transition-colors block">
                                             +49 1575 0123117
                                         </a>
@@ -55,7 +58,7 @@ export function ContactFormSection() {
                                         <Mail className="w-5 h-5 text-primary" />
                                     </div>
                                     <div>
-                                        <h4 className="text-white font-semibold mb-1">Email</h4>
+                                        <h4 className="text-white font-semibold mb-1">{dict.contact_form.email_title}</h4>
                                         <a href="mailto:contact@monalisabiohacking.com" className="text-zinc-400 hover:text-white transition-colors block">
                                             contact@monalisabiohacking.com
                                         </a>
@@ -65,7 +68,7 @@ export function ContactFormSection() {
                         </div>
 
                         <div>
-                            <h3 className="text-white font-semibold mb-6">Social Media</h3>
+                            <h3 className="text-white font-semibold mb-6">{dict.contact_form.social_title}</h3>
                             <div className="flex gap-4">
                                 <Link href="https://www.instagram.com/monalisa_consilier_nutritie?igsh=MXF1ZjFjejZmOXh1MQ==" target="_blank" className="w-12 h-12 rounded-full bg-secondary border border-border flex items-center justify-center text-zinc-400 hover:bg-primary hover:text-black hover:border-primary transition-all">
                                     <Instagram className="w-6 h-6" />
@@ -84,63 +87,63 @@ export function ContactFormSection() {
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="bg-secondary/20 p-8 rounded-2xl border border-border"
                     >
-                        <h3 className="text-2xl font-bold text-white mb-2">Trimite un Mesaj</h3>
+                        <h3 className="text-2xl font-bold text-white mb-2">{dict.contact_form.form_title}</h3>
                         <p className="text-zinc-400 mb-8 text-sm">
-                            Completează formularul și te voi contacta pentru a programa Apelul Gratuit de Explorare.
+                            {dict.contact_form.form_subtitle}
                         </p>
 
                         <form className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium text-zinc-300">Nume</label>
+                                    <label className="text-sm font-medium text-zinc-300">{dict.contact_form.label_name}</label>
                                     <input
                                         type="text"
-                                        placeholder="Numele tău"
+                                        placeholder={dict.contact_form.placeholder_name}
                                         className="w-full bg-background border border-border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-zinc-600"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium text-zinc-300">Prenume</label>
+                                    <label className="text-sm font-medium text-zinc-300">{dict.contact_form.label_surname}</label>
                                     <input
                                         type="text"
-                                        placeholder="Prenumele tău"
+                                        placeholder={dict.contact_form.placeholder_surname}
                                         className="w-full bg-background border border-border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-zinc-600"
                                     />
                                 </div>
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-medium text-zinc-300">Email</label>
+                                <label className="text-sm font-medium text-zinc-300">{dict.contact_form.label_email}</label>
                                 <input
                                     type="email"
-                                    placeholder="adresa@email.com"
+                                    placeholder={dict.contact_form.placeholder_email}
                                     className="w-full bg-background border border-border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-zinc-600"
                                 />
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-medium text-zinc-300">Subiect / Serviciu Dorit</label>
+                                <label className="text-sm font-medium text-zinc-300">{dict.contact_form.label_subject}</label>
                                 <select className="w-full bg-background border border-border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all appearance-none cursor-pointer">
-                                    <option value="" disabled selected>Alege o opțiune...</option>
-                                    <option value="conslutation">Apel Gratuit de Explorare</option>
-                                    <option value="restart">Restart Nutrițional (1 Lună)</option>
-                                    <option value="reset">RESET COMPLET (3 Luni)</option>
-                                    <option value="longeviq">LongevIQ™ (6 Luni)</option>
-                                    <option value="other">Altceva</option>
+                                    <option value="" disabled selected>{dict.contact_form.option_default}</option>
+                                    <option value="conslutation">{dict.services.items.explorare.title}</option>
+                                    <option value="restart">{dict.services.items.restart.title}</option>
+                                    <option value="reset">{dict.services.items.reset.title}</option>
+                                    <option value="longeviq">{dict.services.items.longeviq.title}</option>
+                                    <option value="other">{dict.contact_form.option_other}</option>
                                 </select>
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-medium text-zinc-300">Mesaj</label>
+                                <label className="text-sm font-medium text-zinc-300">{dict.contact_form.label_message}</label>
                                 <textarea
                                     rows={5}
-                                    placeholder="Povestește-mi puțin despre obiectivele tale..."
+                                    placeholder={dict.contact_form.placeholder_message}
                                     className="w-full bg-background border border-border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-zinc-600 resize-none"
                                 ></textarea>
                             </div>
 
                             <button type="submit" className="w-full bg-primary text-black font-bold py-4 rounded-xl hover:bg-emerald-400 transition-all shadow-lg hover:shadow-primary/20 flex items-center justify-center gap-2 group cursor-pointer">
-                                Trimite Mesajul <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                {dict.contact_form.submit} <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </button>
                         </form>
                     </motion.div>
