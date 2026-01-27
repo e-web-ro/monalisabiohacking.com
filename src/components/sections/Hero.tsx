@@ -14,7 +14,7 @@ export function Hero({ dict, lang }: HeroProps) {
             {/* Background Glow */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-primary/20 blur-[120px] rounded-full pointer-events-none" />
 
-            <div className="container px-4 mx-auto relative z-10 text-center">
+            <div className="container px-4 mx-auto relative z-10 text-center pt-20 md:pt-0">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -27,15 +27,15 @@ export function Hero({ dict, lang }: HeroProps) {
                         {dict.title1} <br />
                         <span className="text-primary">{dict.title2}</span>
                     </h1>
-                    <p className="text-xl text-zinc-400 mb-8 leading-relaxed">
+                    <p className="text-lg md:text-xl text-zinc-400 mb-8 leading-relaxed max-w-2xl mx-auto">
                         {dict.description}
                     </p>
 
-                    <div className="flex flex-col sm:flex-row gap-4">
-                        <Link href={`/${lang}/programare`} className="px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-all text-center">
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full sm:w-auto">
+                        <Link href={`/${lang}/programare`} className="w-full sm:w-auto px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-all text-center">
                             {dict.cta_primary}
                         </Link>
-                        <Link href={`/${lang}/servicii`} className="px-8 py-3 bg-secondary text-white font-bold rounded-full border border-border hover:bg-zinc-800 transition-all text-center">
+                        <Link href={`/${lang}/servicii`} className="w-full sm:w-auto px-8 py-3 bg-secondary text-white font-bold rounded-full border border-border hover:bg-zinc-800 transition-all text-center">
                             {dict.cta_secondary}
                         </Link>
                     </div>

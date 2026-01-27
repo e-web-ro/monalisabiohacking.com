@@ -1,4 +1,5 @@
 "use client";
+import { ChevronDown, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -11,6 +12,8 @@ interface NavbarProps {
 
 export function Navbar({ dict, lang }: NavbarProps) {
     const [scrolled, setScrolled] = useState(false);
+    const [langOpen, setLangOpen] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -52,25 +55,34 @@ export function Navbar({ dict, lang }: NavbarProps) {
                     {/* Actions: Lang Switcher & Contact */}
                     <div className="flex items-center gap-6">
                         {/* Language Switcher */}
-                        <div className="flex items-center bg-zinc-800/80 backdrop-blur-md rounded-full p-1.5 border border-zinc-700/50">
+                        <div className="relative">
                             <button
-                                onClick={() => switchLanguage("ro")}
-                                className={cn(
-                                    "px-4 py-1.5 rounded-full text-xs font-bold transition-all min-w-[40px]",
-                                    lang === "ro" ? "bg-primary text-black shadow-sm" : "text-zinc-400 hover:text-white"
-                                )}
+                                onClick={() => setLangOpen(!langOpen)}
+                                className="flex items-center gap-2 bg-zinc-800/80 backdrop-blur-md rounded-full px-4 py-2 border border-zinc-700/50 text-white text-xs font-bold hover:bg-zinc-700 transition-colors"
                             >
-                                RO
+                                <span className="uppercase">{lang}</span>
+                                <ChevronDown className={cn("w-3 h-3 transition-transform", langOpen && "rotate-180")} />
                             </button>
-                            <button
-                                onClick={() => switchLanguage("en")}
-                                className={cn(
-                                    "px-4 py-1.5 rounded-full text-xs font-bold transition-all min-w-[40px]",
-                                    lang === "en" ? "bg-primary text-black shadow-sm" : "text-zinc-400 hover:text-white"
-                                )}
-                            >
-                                EN
-                            </button>
+
+                            {langOpen && (
+                                <div className="absolute top-full mt-2 right-0 bg-secondary/95 backdrop-blur-xl border border-border rounded-xl p-1.5 flex flex-col min-w-[80px] shadow-xl animate-in fade-in slide-in-from-top-2">
+                                    {["ro", "en", "de"].map((l) => (
+                                        <button
+                                            key={l}
+                                            onClick={() => {
+                                                switchLanguage(l);
+                                                setLangOpen(false);
+                                            }}
+                                            className={cn(
+                                                "px-4 py-2 rounded-lg text-xs font-bold transition-all text-left uppercase hover:bg-white/10",
+                                                lang === l ? "text-primary bg-primary/10" : "text-zinc-400"
+                                            )}
+                                        >
+                                            {l}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
                         </div>
 
                         <Link href={`/${lang}/contact`} className="px-6 py-2.5 rounded-full bg-white text-black text-sm font-bold hover:bg-zinc-200 transition-all shadow-lg hover:scale-105 active:scale-95">
@@ -78,6 +90,73 @@ export function Navbar({ dict, lang }: NavbarProps) {
                         </Link>
                     </div>
                 </div>
+
+                {/* Mobile Menu Toggle */}
+                <button
+                    className="md:hidden text-white p-2"
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                >
+                    {mobileMenuOpen ? <X /> : <Menu />}
+                </button>
+
+                {/* Mobile Menu Overlay */}
+                {/* Mobile Menu Overlay */}
+                {mobileMenuOpen && (
+                    <div className="fixed inset-0 z-50 bg-background md:hidden flex flex-col pt-24 px-6 animate-in slide-in-from-right duration-300">
+                        <div className="flex flex-col gap-6 text-center">
+                            <Link
+                                href={`/${lang}/about`}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="text-2xl font-bold text-white hover:text-primary transition-colors"
+                            >
+                                {dict.about}
+                            </Link>
+                            <Link
+                                href={`/${lang}/servicii`}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="text-2xl font-bold text-white hover:text-primary transition-colors"
+                            >
+                                {dict.services}
+                            </Link>
+                            <Link
+                                href={`/${lang}/blog`}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="text-2xl font-bold text-white hover:text-primary transition-colors"
+                            >
+                                {dict.blog}
+                            </Link>
+                            <Link
+                                href={`/${lang}/contact`}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="text-2xl font-bold text-white hover:text-primary transition-colors"
+                            >
+                                {dict.contact}
+                            </Link>
+
+                            <div className="h-px bg-zinc-800 w-full my-4" />
+
+                            <div className="flex justify-center gap-4">
+                                {["ro", "en", "de"].map((l) => (
+                                    <button
+                                        key={l}
+                                        onClick={() => {
+                                            switchLanguage(l);
+                                            setMobileMenuOpen(false);
+                                        }}
+                                        className={cn(
+                                            "w-12 h-12 rounded-full font-bold transition-all uppercase border",
+                                            lang === l
+                                                ? "bg-primary text-black border-primary"
+                                                : "bg-transparent text-zinc-400 border-zinc-700"
+                                        )}
+                                    >
+                                        {l}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </nav>
     );

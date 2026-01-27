@@ -23,7 +23,7 @@ export function About({ dict, lang }: AboutProps) {
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8 }}
                         viewport={{ once: true }}
-                        className="w-full lg:w-1/2 relative"
+                        className="w-full lg:w-1/2 relative mb-12 lg:mb-0"
                     >
                         <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-border shadow-2xl">
                             <Image
