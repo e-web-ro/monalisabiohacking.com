@@ -6,8 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
 
-export default async function BlogPage() {
-    const lang = "ro";
+export default async function BlogPage({ params }: { params: Promise<{ lang: string }> }) {
+    const { lang } = await params as { lang: "ro" | "en" | "de" };
     const dict = await getDictionary(lang);
 
     return (
@@ -18,10 +18,10 @@ export default async function BlogPage() {
             <section className="pt-32 pb-16 bg-gradient-to-b from-secondary/50 to-background border-b border-border">
                 <div className="container px-4 mx-auto text-center">
                     <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-                        Blog & <span className="text-primary">Resurse</span>
+                        {dict.blog_page.title} <span className="text-primary">{dict.blog_page.title_accent}</span>
                     </h1>
                     <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
-                        Articole despre nutriție funcțională, biohacking, echilibru hormonal și povești reale de transformare.
+                        {dict.blog_page.subtitle}
                     </p>
                 </div>
             </section>
@@ -35,7 +35,7 @@ export default async function BlogPage() {
                                 key={post.slug}
                                 className="group flex flex-col h-full bg-secondary/20 border border-border rounded-2xl overflow-hidden hover:border-primary/30 transition-all hover:bg-secondary/40"
                             >
-                                <Link href={`/blog/${post.slug}`} className="block relative aspect-video overflow-hidden">
+                                <Link href={`/${lang}/blog/${post.slug}`} className="block relative aspect-video overflow-hidden">
                                     <Image
                                         src={post.image}
                                         alt={post.title}
@@ -60,7 +60,7 @@ export default async function BlogPage() {
                                     </div>
 
                                     <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-primary transition-colors">
-                                        <Link href={`/blog/${post.slug}`}>
+                                        <Link href={`/${lang}/blog/${post.slug}`}>
                                             {post.title}
                                         </Link>
                                     </h3>
@@ -69,8 +69,8 @@ export default async function BlogPage() {
                                         {post.excerpt}
                                     </p>
 
-                                    <Link href={`/blog/${post.slug}`} className="inline-flex items-center text-sm font-semibold text-primary hover:text-emerald-300 transition-colors mt-auto">
-                                        Citește mai mult <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                    <Link href={`/${lang}/blog/${post.slug}`} className="inline-flex items-center text-sm font-semibold text-primary hover:text-emerald-300 transition-colors mt-auto">
+                                        {dict.blog.cta_read} <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                                     </Link>
                                 </div>
                             </article>

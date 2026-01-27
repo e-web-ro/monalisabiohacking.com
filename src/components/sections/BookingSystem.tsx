@@ -5,18 +5,10 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
-import { ro } from "date-fns/locale";
+import { ro, enUS, de } from "date-fns/locale";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Clock, Calendar as CalendarIcon, ChevronRight, User, Mail, Phone, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const services = [
-    { id: "explorare", title: "Apel Gratuit de explorare", duration: 60, price: "Gratuit" },
-    { id: "consultatie", title: "Consultație Inițială", duration: 60, price: "60 €" },
-    { id: "restart", title: "Restart Nutrițional (1 Lună)", duration: 60, price: "120 €" },
-    { id: "reset", title: "RESET COMPLET (3 Luni)", duration: 60, price: "330 €" },
-    { id: "longeviq", title: "LongevIQ™ (6 Luni)", duration: 60, price: "650 €" },
-];
 
 const timeSlots = [
     "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"
@@ -30,6 +22,14 @@ interface BookingSystemProps {
 function BookingSystemContent({ dict, lang }: BookingSystemProps) {
     const searchParams = useSearchParams();
     const serviceId = searchParams.get("service");
+
+    // Derive services from dictionary
+    const services = Object.entries(dict.services.items).map(([key, item]: [string, any]) => ({
+        id: key,
+        title: item.title,
+        price: item.price,
+        duration: item.duration // This is now a string like "1 h"
+    }));
 
     const [step, setStep] = useState(1);
     const [selectedService, setSelectedService] = useState(serviceId ? services.find(s => s.id === serviceId) || null : null);
@@ -53,6 +53,14 @@ function BookingSystemContent({ dict, lang }: BookingSystemProps) {
         setTimeout(() => setIsSubmitted(true), 1500); // Simulate API call
     };
 
+    const getDateLocale = () => {
+        switch (lang) {
+            case 'de': return de;
+            case 'en': return enUS;
+            default: return ro;
+        }
+    };
+
     if (isSubmitted) {
         return (
             <main className="min-h-screen bg-background">
@@ -66,16 +74,17 @@ function BookingSystemContent({ dict, lang }: BookingSystemProps) {
                         <div className="w-24 h-24 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-8">
                             <Check className="w-12 h-12 text-primary" />
                         </div>
-                        <h2 className="text-4xl font-bold text-white mb-4">Rezervare Trimisă!</h2>
+                        <h2 className="text-4xl font-bold text-white mb-4">{dict.booking.success_title}</h2>
                         <p className="text-xl text-zinc-300 mb-8">
-                            Mulțumesc, <span className="text-primary font-semibold">{formData.name}</span>! <br />
-                            Cererea ta pentru <span className="text-white font-semibold">{selectedService?.title}</span> a fost înregistrată.
+                            {dict.booking.success_message
+                                .replace("{name}", formData.name)
+                                .replace("{service}", selectedService?.title)}
                         </p>
                         <p className="text-zinc-400 mb-8">
-                            Vei primi o confirmare pe email ({formData.email}) în scurt timp.
+                            {dict.booking.success_email.replace("{email}", formData.email)}
                         </p>
-                        <a href="/" className="inline-block px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors">
-                            Înapoi la Home
+                        <a href={`/${lang}`} className="inline-block px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors">
+                            {dict.booking.back_home}
                         </a>
                     </motion.div>
                 </div>
@@ -96,25 +105,25 @@ function BookingSystemContent({ dict, lang }: BookingSystemProps) {
                         <div className="w-full lg:w-1/3 order-2 lg:order-1">
                             <div className="bg-secondary/20 p-8 rounded-2xl border border-border sticky top-32">
                                 <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                                    <Clock className="w-5 h-5 text-primary" /> Sumar Rezervare
+                                    <Clock className="w-5 h-5 text-primary" /> {dict.booking.summary}
                                 </h3>
 
                                 <div className="space-y-6">
                                     <div className="pb-6 border-b border-white/5">
-                                        <p className="text-sm text-zinc-500 mb-1">Serviciu</p>
+                                        <p className="text-sm text-zinc-500 mb-1">{dict.booking.service}</p>
                                         <p className="text-white font-medium text-lg">
-                                            {selectedService ? selectedService.title : "Neselectat"}
+                                            {selectedService ? selectedService.title : dict.contact_form.option_default}
                                         </p>
                                         {selectedService && (
-                                            <p className="text-primary text-sm mt-1">{selectedService.price} • {selectedService.duration} min</p>
+                                            <p className="text-primary text-sm mt-1">{selectedService.price} • {dict.common.sessions} {selectedService.duration}</p>
                                         )}
                                     </div>
 
                                     <div className="pb-6 border-b border-white/5">
-                                        <p className="text-sm text-zinc-500 mb-1">Data & Ora</p>
+                                        <p className="text-sm text-zinc-500 mb-1">{dict.booking.date_time}</p>
                                         <div className="flex items-center gap-2 text-white">
                                             <CalendarIcon className="w-4 h-4 text-zinc-400" />
-                                            {date ? format(date, "PPP", { locale: ro }) : "-"}
+                                            {date ? format(date, "PPP", { locale: getDateLocale() }) : "-"}
                                         </div>
                                         <div className="flex items-center gap-2 text-white mt-2">
                                             <Clock className="w-4 h-4 text-zinc-400" />
@@ -127,7 +136,7 @@ function BookingSystemContent({ dict, lang }: BookingSystemProps) {
                                             onClick={() => setStep(1)}
                                             className="text-xs text-zinc-500 hover:text-white underline"
                                         >
-                                            Modifică
+                                            {dict.booking.modify}
                                         </button>
                                     )}
                                 </div>
@@ -168,7 +177,7 @@ function BookingSystemContent({ dict, lang }: BookingSystemProps) {
                                         exit={{ opacity: 0, x: -20 }}
                                         className="space-y-8"
                                     >
-                                        <h2 className="text-3xl font-bold text-white">1. Alege Serviciul</h2>
+                                        <h2 className="text-3xl font-bold text-white">{dict.booking.step1}</h2>
                                         <div className="grid grid-cols-1 gap-4">
                                             {services.map((service) => (
                                                 <div
@@ -185,7 +194,7 @@ function BookingSystemContent({ dict, lang }: BookingSystemProps) {
                                                         <h3 className={cn("font-bold text-lg", selectedService?.id === service.id ? "text-primary" : "text-white")}>
                                                             {service.title}
                                                         </h3>
-                                                        <p className="text-zinc-500 text-sm mt-1">{service.duration} minute</p>
+                                                        <p className="text-zinc-500 text-sm mt-1">{dict.common.sessions} {service.duration}</p>
                                                     </div>
                                                     <div className="text-right">
                                                         <span className={cn("font-bold text-xl block", selectedService?.id === service.id ? "text-white" : "text-zinc-300")}>
@@ -202,7 +211,7 @@ function BookingSystemContent({ dict, lang }: BookingSystemProps) {
                                                 disabled={!selectedService}
                                                 className="px-8 py-3 bg-white text-black font-bold rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors flex items-center gap-2"
                                             >
-                                                Pasul Următor <ChevronRight className="w-5 h-5" />
+                                                {dict.booking.next} <ChevronRight className="w-5 h-5" />
                                             </button>
                                         </div>
                                     </motion.div>
@@ -216,25 +225,26 @@ function BookingSystemContent({ dict, lang }: BookingSystemProps) {
                                         exit={{ opacity: 0, x: -20 }}
                                         className="space-y-8"
                                     >
-                                        <h2 className="text-3xl font-bold text-white">2. Alege Data & Ora</h2>
+                                        <h2 className="text-3xl font-bold text-white">{dict.booking.step2}</h2>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                             <div>
-                                                <h4 className="text-zinc-400 mb-4 font-medium">Selectează Ziua</h4>
+                                                <h4 className="text-zinc-400 mb-4 font-medium">{dict.booking.select_date}</h4>
                                                 <Calendar
                                                     mode="single"
                                                     selected={date}
                                                     onSelect={setDate}
                                                     className="rounded-xl border border-border w-full"
                                                     disabled={(date) => date < new Date() || date.getDay() === 0 || date.getDay() === 6} // Disable weekends/past
+                                                    locale={getDateLocale()}
                                                 />
                                             </div>
 
                                             <div>
-                                                <h4 className="text-zinc-400 mb-4 font-medium">Selectează Ora</h4>
+                                                <h4 className="text-zinc-400 mb-4 font-medium">{dict.booking.select_time}</h4>
                                                 {!date ? (
                                                     <div className="h-full flex items-center justify-center border border-dashed border-zinc-800 rounded-xl p-8 text-zinc-600">
-                                                        Alege o dată din calendar mai întâi
+                                                        {dict.booking.select_date_first}
                                                     </div>
                                                 ) : (
                                                     <div className="grid grid-cols-3 gap-3">
@@ -262,14 +272,14 @@ function BookingSystemContent({ dict, lang }: BookingSystemProps) {
                                                 onClick={handleBack}
                                                 className="text-zinc-400 hover:text-white flex items-center gap-2"
                                             >
-                                                <ArrowLeft className="w-5 h-5" /> Înapoi
+                                                <ArrowLeft className="w-5 h-5" /> {dict.booking.back}
                                             </button>
                                             <button
                                                 onClick={handleNext}
                                                 disabled={!date || !time}
                                                 className="px-8 py-3 bg-white text-black font-bold rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors flex items-center gap-2"
                                             >
-                                                Pasul Următor <ChevronRight className="w-5 h-5" />
+                                                {dict.booking.next} <ChevronRight className="w-5 h-5" />
                                             </button>
                                         </div>
                                     </motion.div>
@@ -283,23 +293,23 @@ function BookingSystemContent({ dict, lang }: BookingSystemProps) {
                                         exit={{ opacity: 0, x: -20 }}
                                         className="space-y-8"
                                     >
-                                        <h2 className="text-3xl font-bold text-white">3. Detaliile Tale</h2>
+                                        <h2 className="text-3xl font-bold text-white">{dict.booking.step3}</h2>
 
                                         <form onSubmit={handleSubmit} className="space-y-6">
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                 <div className="space-y-2">
-                                                    <label className="text-sm text-zinc-400 flex items-center gap-2"><User className="w-4 h-4" /> Nume Complet</label>
+                                                    <label className="text-sm text-zinc-400 flex items-center gap-2"><User className="w-4 h-4" /> {dict.booking.name}</label>
                                                     <input
                                                         required
                                                         type="text"
                                                         value={formData.name}
                                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                                         className="w-full bg-secondary/30 border border-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50"
-                                                        placeholder="Ex: Maria Popescu"
+                                                        placeholder={dict.contact_form.placeholder_name}
                                                     />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <label className="text-sm text-zinc-400 flex items-center gap-2"><Phone className="w-4 h-4" /> Telefon</label>
+                                                    <label className="text-sm text-zinc-400 flex items-center gap-2"><Phone className="w-4 h-4" /> {dict.booking.phone}</label>
                                                     <input
                                                         required
                                                         type="tel"
@@ -312,25 +322,25 @@ function BookingSystemContent({ dict, lang }: BookingSystemProps) {
                                             </div>
 
                                             <div className="space-y-2">
-                                                <label className="text-sm text-zinc-400 flex items-center gap-2"><Mail className="w-4 h-4" /> Email</label>
+                                                <label className="text-sm text-zinc-400 flex items-center gap-2"><Mail className="w-4 h-4" /> {dict.booking.email}</label>
                                                 <input
                                                     required
                                                     type="email"
                                                     value={formData.email}
                                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                                     className="w-full bg-secondary/30 border border-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50"
-                                                    placeholder="Ex: maria@email.com"
+                                                    placeholder={dict.contact_form.placeholder_email}
                                                 />
                                             </div>
 
                                             <div className="space-y-2">
-                                                <label className="text-sm text-zinc-400">Note adiționale (opțional)</label>
+                                                <label className="text-sm text-zinc-400">{dict.booking.notes}</label>
                                                 <textarea
                                                     rows={4}
                                                     value={formData.notes}
                                                     onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                                                     className="w-full bg-secondary/30 border border-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 resize-none"
-                                                    placeholder="Dacă ai întrebări specifice..."
+                                                    placeholder={dict.booking.notes_placeholder}
                                                 ></textarea>
                                             </div>
 
@@ -340,13 +350,13 @@ function BookingSystemContent({ dict, lang }: BookingSystemProps) {
                                                     onClick={handleBack}
                                                     className="text-zinc-400 hover:text-white flex items-center gap-2"
                                                 >
-                                                    <ArrowLeft className="w-5 h-5" /> Înapoi
+                                                    <ArrowLeft className="w-5 h-5" /> {dict.booking.back}
                                                 </button>
                                                 <button
                                                     type="submit"
                                                     className="px-8 py-3 bg-primary text-black font-bold rounded-full hover:bg-emerald-400 transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:scale-105"
                                                 >
-                                                    Confirmă Rezervarea
+                                                    {dict.booking.confirm}
                                                 </button>
                                             </div>
                                         </form>
@@ -363,7 +373,7 @@ function BookingSystemContent({ dict, lang }: BookingSystemProps) {
 
 export function BookingSystem({ dict, lang }: BookingSystemProps) {
     return (
-        <Suspense fallback={<div className="min-h-screen bg-background flex items-center justify-center text-primary">Se încarcă sistemul...</div>}>
+        <Suspense fallback={<div className="min-h-screen bg-background flex items-center justify-center text-primary">{dict.common.loading}</div>}>
             <BookingSystemContent dict={dict} lang={lang} />
         </Suspense>
     );

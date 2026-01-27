@@ -193,5 +193,14 @@
         "submit": "Send Message",
         "option_default": "Choose an option...",
         "option_other": "Other"
+    },
+    "blog_page": {
+        "title": "Blog &",
+        "title_accent": "Resources",
+        "subtitle": "Articles about functional nutrition, biohacking, hormonal balance, and real transformation stories.",
+        "back_to_blog": "Back to Blog",
+        "share": "Share",
+        "liked_article": "Liked the article?",
+        "author_label": "Author"
     }
 }

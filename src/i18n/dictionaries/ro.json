@@ -193,5 +193,14 @@
         "submit": "Trimite Mesajul",
         "option_default": "Alege o opțiune...",
         "option_other": "Altceva"
+    },
+    "blog_page": {
+        "title": "Blog &",
+        "title_accent": "Resurse",
+        "subtitle": "Articole despre nutriție funcțională, biohacking, echilibru hormonal și povești reale de transformare.",
+        "back_to_blog": "Înapoi la Blog",
+        "share": "Distribuie",
+        "liked_article": "Ți-a plăcut articolul?",
+        "author_label": "Autor"
     }
 }

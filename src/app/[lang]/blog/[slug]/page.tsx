@@ -10,19 +10,27 @@ import { ArrowLeft, Calendar, Clock, Share2 } from "lucide-react";
 interface BlogPostPageProps {
     params: Promise<{
         slug: string;
+        lang: string;
     }>;
 }
 
 export async function generateStaticParams() {
-    return blogPosts.map((post) => ({
-        slug: post.slug,
-    }));
+    const locales = ["ro", "en", "de"];
+    const params: { lang: string; slug: string }[] = [];
+
+    locales.forEach((lang) => {
+        blogPosts.forEach((post) => {
+            params.push({ lang, slug: post.slug });
+        });
+    });
+
+    return params;
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-    const { slug } = await params;
+    const { slug, lang: rawLang } = await params;
+    const lang = rawLang as "ro" | "en" | "de";
     const post = blogPosts.find((p) => p.slug === slug);
-    const lang = "ro";
     const dict = await getDictionary(lang);
 
     if (!post) {
@@ -46,8 +54,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
                 <div className="absolute bottom-0 left-0 w-full p-6 md:p-12">
                     <div className="container mx-auto max-w-4xl">
-                        <Link href="/blog" className="inline-flex items-center text-zinc-400 hover:text-white mb-6 transition-colors">
-                            <ArrowLeft className="w-4 h-4 mr-2" /> Înapoi la Blog
+                        <Link href={`/${lang}/blog`} className="inline-flex items-center text-zinc-400 hover:text-white mb-6 transition-colors">
+                            <ArrowLeft className="w-4 h-4 mr-2" /> {dict.blog_page.back_to_blog}
                         </Link>
 
                         <span className="inline-block py-1 px-3 rounded-full bg-primary/20 text-primary text-sm font-semibold mb-6 border border-primary/20">
@@ -65,7 +73,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                 </div>
                                 <div>
                                     <p className="text-sm font-medium text-white">{post.author}</p>
-                                    <p className="text-xs text-zinc-500">Autor</p>
+                                    <p className="text-xs text-zinc-500">{dict.blog_page.author_label}</p>
                                 </div>
                             </div>
 
@@ -94,9 +102,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
                 {/* Share / Tags Placeholder */}
                 <div className="mt-16 pt-8 border-t border-border flex justify-between items-center">
-                    <p className="text-zinc-500 italic">Ți-a plăcut articolul?</p>
+                    <p className="text-zinc-500 italic">{dict.blog_page.liked_article}</p>
                     <button className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors">
-                        <Share2 className="w-5 h-5" /> Distribuie
+                        <Share2 className="w-5 h-5" /> {dict.blog_page.share}
                     </button>
                 </div>
             </article>

@@ -193,5 +193,14 @@
         "submit": "Nachricht senden",
         "option_default": "Wählen Sie eine Option...",
         "option_other": "Andere"
+    },
+    "blog_page": {
+        "title": "Blog &",
+        "title_accent": "Ressourcen",
+        "subtitle": "Artikel über funktionelle Ernährung, Biohacking, hormonelles Gleichgewicht und echte Transformationsgeschichten.",
+        "back_to_blog": "Zurück zum Blog",
+        "share": "Teilen",
+        "liked_article": "Gefällt Ihnen der Artikel?",
+        "author_label": "Autor"
     }
 }
