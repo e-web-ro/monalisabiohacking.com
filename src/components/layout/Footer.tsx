@@ -22,7 +22,7 @@ export function Footer({ dict, lang }: FooterProps) {
                             {dict.desc}
                         </p>
                         <div className="flex gap-4">
-                            <Link href="#" className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 hover:bg-primary hover:text-black transition-all">
+                            <Link href="https://www.instagram.com/monalisa_consilier_nutritie?igsh=MXF1ZjFjejZmOXh1MQ==" target="_blank" className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 hover:bg-primary hover:text-black transition-all">
                                 <Instagram className="w-5 h-5" />
                             </Link>
                             <Link href="#" className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 hover:bg-primary hover:text-black transition-all">

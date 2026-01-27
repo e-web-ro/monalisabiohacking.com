@@ -67,7 +67,7 @@ export function ContactFormSection() {
                         <div>
                             <h3 className="text-white font-semibold mb-6">Social Media</h3>
                             <div className="flex gap-4">
-                                <Link href="#" className="w-12 h-12 rounded-full bg-secondary border border-border flex items-center justify-center text-zinc-400 hover:bg-primary hover:text-black hover:border-primary transition-all">
+                                <Link href="https://www.instagram.com/monalisa_consilier_nutritie?igsh=MXF1ZjFjejZmOXh1MQ==" target="_blank" className="w-12 h-12 rounded-full bg-secondary border border-border flex items-center justify-center text-zinc-400 hover:bg-primary hover:text-black hover:border-primary transition-all">
                                     <Instagram className="w-6 h-6" />
                                 </Link>
                                 <Link href="#" className="w-12 h-12 rounded-full bg-secondary border border-border flex items-center justify-center text-zinc-400 hover:bg-primary hover:text-black hover:border-primary transition-all">

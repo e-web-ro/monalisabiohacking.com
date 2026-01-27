@@ -102,7 +102,7 @@ export function Navbar({ dict, lang }: NavbarProps) {
                 {/* Mobile Menu Overlay */}
                 {/* Mobile Menu Overlay */}
                 {mobileMenuOpen && (
-                    <div className="fixed inset-0 z-50 bg-background md:hidden flex flex-col pt-24 px-6 animate-in slide-in-from-right duration-300">
+                    <div className="fixed inset-0 z-40 bg-secondary/95 backdrop-blur-xl md:hidden flex flex-col pt-24 px-6 animate-in slide-in-from-right duration-300">
                         <div className="flex flex-col gap-6 text-center">
                             <Link
                                 href={`/${lang}/about`}

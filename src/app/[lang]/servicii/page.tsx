@@ -29,7 +29,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ lang:
                     id: key,
                     ...item,
                     highlight: key === 'reset',
-                    price: item.features // Use a way to get price if it's not directly in item (checking json, price IS NOT in item directly in my json update? Wait)
+                    price: item.price
                 }))}
                 dict={dict}
                 lang={lang}
