@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X, Send, Phone, Mail, User, Bot, MessageSquare } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import { chatKnowledge } from "@/lib/chat-knowledge";
 import { cn } from "@/lib/utils";
 
@@ -186,12 +187,27 @@ export function FloatingContact({ dict, lang }: FloatingContactProps) {
                                     </div>
 
                                     <div className={cn(
-                                        "p-3 rounded-2xl text-sm",
+                                        "p-3 rounded-2xl text-sm whitespace-pre-wrap",
                                         msg.sender === "user"
                                             ? "bg-primary text-black rounded-tr-none"
                                             : "bg-zinc-800 text-zinc-200 rounded-tl-none border border-zinc-700"
                                     )}>
-                                        {msg.text}
+                                        {msg.text.split(/(\/[a-z]{2}\/[^\s]+|https?:\/\/[^\s]+)/g).map((part, i) => {
+                                            if (part.startsWith('/') || part.startsWith('http')) {
+                                                const isExternal = part.startsWith('http');
+                                                return (
+                                                    <Link
+                                                        key={i}
+                                                        href={part}
+                                                        target={isExternal ? "_blank" : undefined}
+                                                        className="text-primary hover:underline break-all font-medium"
+                                                    >
+                                                        {part}
+                                                    </Link>
+                                                );
+                                            }
+                                            return part;
+                                        })}
                                         <p className="text-[10px] opacity-50 mt-1 text-right">
                                             {msg.timestamp.toLocaleTimeString(lang, { hour: "2-digit", minute: "2-digit" })}
                                         </p>
