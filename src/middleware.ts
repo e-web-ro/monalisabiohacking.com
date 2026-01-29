@@ -26,10 +26,11 @@ export function middleware(request: NextRequest) {
         (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
     );
 
-    // Exclude static assets/api
+    // Exclude static assets/api/admin
     if (
         pathname.startsWith("/_next") ||
         pathname.startsWith("/api") ||
+        pathname.startsWith("/admin") ||
         pathname.includes(".") // Files like images, etc.
     ) {
         return;
