@@ -2,6 +2,7 @@
     "navbar": {
         "about": "About",
         "services": "Services",
+        "shop": "Shop",
         "blog": "Blog",
         "contact": "Contact"
     },
@@ -213,5 +214,47 @@
         "typing": "Typing...",
         "default_answer": "I'm sorry, I don't have an exact answer for that in my database. Please write to Monalisa directly on WhatsApp for personalized details.",
         "assistant_name": "Monalisa AI Assistant"
+    },
+    "shop": {
+        "title": "Digital",
+        "title_accent": "Shop",
+        "subtitle": "Ebooks, practical guides, and exclusive resources for biohacking and nutrition.",
+        "filters": {
+            "all": "All",
+            "ebooks": "Ebooks",
+            "guides": "Guides",
+            "protocols": "Protocols"
+        },
+        "add_to_cart": "Add to Cart",
+        "buy_now": "Buy Now",
+        "cart": {
+            "title": "Your Cart",
+            "empty": "Your cart is empty",
+            "total": "Total",
+            "checkout": "Checkout",
+            "remove": "Remove"
+        },
+        "digital_product": "Digital Product",
+        "instant_delivery": "Instant email delivery after payment",
+        "products": {
+            "biohacking_guide": {
+                "title": "Biohacking Guide",
+                "description": "Everything you need to know to optimize your biology.",
+                "price": "29 €",
+                "category": "guides"
+            },
+            "hormonal_balance": {
+                "title": "Hormonal Balance",
+                "description": "Complete protocol for natural hormone regulation.",
+                "price": "45 €",
+                "category": "protocols"
+            },
+            "smoothies_ebook": {
+                "title": "Smoothies Ebook",
+                "description": "50 functional smoothie recipes.",
+                "price": "19 €",
+                "category": "ebooks"
+            }
+        }
     }
 }

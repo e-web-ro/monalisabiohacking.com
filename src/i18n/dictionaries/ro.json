@@ -2,6 +2,7 @@
     "navbar": {
         "about": "Despre",
         "services": "Servicii",
+        "shop": "Magazin",
         "blog": "Blog",
         "contact": "Contact"
     },
@@ -213,5 +214,47 @@
         "typing": "Scrie...",
         "default_answer": "Îmi pare rău, nu am un răspuns exact pentru asta în baza mea de date. Te rog să îi scrii Monalisei direct pe WhatsApp pentru detalii personalizate.",
         "assistant_name": "Monalisa AI Assistant"
+    },
+    "shop": {
+        "title": "Magazin",
+        "title_accent": "Digital",
+        "subtitle": "Ebooks, ghiduri practice și resurse exclusive pentru biohacking și nutriție.",
+        "filters": {
+            "all": "Toate",
+            "ebooks": "Ebook-uri",
+            "guides": "Ghiduri",
+            "protocols": "Protocoale"
+        },
+        "add_to_cart": "Adaugă în coș",
+        "buy_now": "Cumpără Acum",
+        "cart": {
+            "title": "Coșul tău",
+            "empty": "Coșul este gol",
+            "total": "Total",
+            "checkout": "Finalizează Comanda",
+            "remove": "Elimină"
+        },
+        "digital_product": "Produs Digital",
+        "instant_delivery": "Livrare instantă pe email după plată",
+        "products": {
+            "biohacking_guide": {
+                "title": "Ghid de Biohacking",
+                "description": "Tot ce trebuie să știi pentru a-ți optimiza biologia.",
+                "price": "29 €",
+                "category": "guides"
+            },
+            "hormonal_balance": {
+                "title": "Echilibru Hormonal",
+                "description": "Protocol complet pentru reglarea naturală a hormonilor.",
+                "price": "45 €",
+                "category": "protocols"
+            },
+            "smoothies_ebook": {
+                "title": "Ebook Smoothies",
+                "description": "50 de rețete de smoothie-uri funcționale.",
+                "price": "19 €",
+                "category": "ebooks"
+            }
+        }
     }
 }

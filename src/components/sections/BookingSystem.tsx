@@ -7,7 +7,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { ro, enUS, de } from "date-fns/locale";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Clock, Calendar as CalendarIcon, ChevronRight, User, Mail, Phone, ArrowLeft } from "lucide-react";
+import { Check, Clock, Calendar as CalendarIcon, ChevronRight, User, Mail, Phone, ArrowLeft, CreditCard } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const timeSlots = [
@@ -150,10 +150,10 @@ function BookingSystemContent({ dict, lang }: BookingSystemProps) {
                                 <div className="absolute left-0 top-1/2 w-full h-1 bg-secondary -z-10 rounded-full" />
                                 <div
                                     className="absolute left-0 top-1/2 h-1 bg-primary transition-all duration-300 rounded-full -z-10"
-                                    style={{ width: `${((step - 1) / 2) * 100}%` }}
+                                    style={{ width: `${((step - 1) / 3) * 100}%` }}
                                 />
 
-                                {[1, 2, 3].map((s) => (
+                                {[1, 2, 3, 4].map((s) => (
                                     <div
                                         key={s}
                                         className={cn(
@@ -356,10 +356,60 @@ function BookingSystemContent({ dict, lang }: BookingSystemProps) {
                                                     type="submit"
                                                     className="px-8 py-3 bg-primary text-black font-bold rounded-full hover:bg-emerald-400 transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:scale-105"
                                                 >
-                                                    {dict.booking.confirm}
+                                                    {dict.shop?.cart?.checkout || "Continuă la Plată"}
                                                 </button>
                                             </div>
                                         </form>
+                                    </motion.div>
+                                )}
+
+                                {step === 4 && (
+                                    <motion.div
+                                        key="step4"
+                                        initial={{ opacity: 0, x: 20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: -20 }}
+                                        className="space-y-8"
+                                    >
+                                        <h2 className="text-3xl font-bold text-white">4. Plata Online</h2>
+
+                                        <div className="bg-secondary/30 p-8 rounded-2xl border border-primary/20 space-y-6">
+                                            <div className="flex items-center justify-between pb-6 border-b border-white/5">
+                                                <div>
+                                                    <h4 className="text-white font-bold text-xl">{selectedService?.title}</h4>
+                                                    <p className="text-zinc-500 text-sm">Programare pentru {date ? format(date, "PPP", { locale: getDateLocale() }) : ""} la ora {time}</p>
+                                                </div>
+                                                <span className="text-3xl font-bold text-primary">{selectedService?.price}</span>
+                                            </div>
+
+                                            <div className="space-y-4">
+                                                <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10">
+                                                    <CreditCard className="text-primary w-6 h-6" />
+                                                    <div className="flex-1">
+                                                        <p className="text-white font-medium">Plată Securizată cu Cardul</p>
+                                                        <p className="text-xs text-zinc-500">Stripe / Netopia</p>
+                                                    </div>
+                                                </div>
+
+                                                <div className="p-4 rounded-xl border border-yellow-500/20 bg-yellow-500/5 text-yellow-200/80 text-xs italic">
+                                                    * Aceasta este o simulare a procesului de plată. Integrarea tehnică cu procesatorul de plăți va fi configurată în etapa următoare.
+                                                </div>
+                                            </div>
+
+                                            <button
+                                                onClick={() => setIsSubmitted(true)}
+                                                className="w-full py-4 bg-primary text-black font-bold rounded-xl hover:bg-emerald-400 transition-all flex items-center justify-center gap-2 group shadow-[0_0_30px_rgba(16,185,129,0.2)]"
+                                            >
+                                                Confirmă și Plătește {selectedService?.price}
+                                            </button>
+                                        </div>
+
+                                        <button
+                                            onClick={handleBack}
+                                            className="text-zinc-400 hover:text-white flex items-center gap-2"
+                                        >
+                                            <ArrowLeft className="w-5 h-5" /> {dict.booking.back}
+                                        </button>
                                     </motion.div>
                                 )}
                             </AnimatePresence>

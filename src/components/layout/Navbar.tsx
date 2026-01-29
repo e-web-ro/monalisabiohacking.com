@@ -49,6 +49,7 @@ export function Navbar({ dict, lang }: NavbarProps) {
                     <div className="flex items-center gap-6">
                         <Link href={`/${lang}/about`} className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">{dict.about}</Link>
                         <Link href={`/${lang}/servicii`} className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">{dict.services}</Link>
+                        <Link href={`/${lang}/shop`} className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">{dict.shop}</Link>
                         <Link href={`/${lang}/blog`} className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">{dict.blog}</Link>
                     </div>
 
@@ -116,6 +117,13 @@ export function Navbar({ dict, lang }: NavbarProps) {
                                 className="text-2xl font-bold text-white hover:text-primary transition-colors"
                             >
                                 {dict.services}
+                            </Link>
+                            <Link
+                                href={`/${lang}/shop`}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="text-2xl font-bold text-white hover:text-primary transition-colors"
+                            >
+                                {dict.shop}
                             </Link>
                             <Link
                                 href={`/${lang}/blog`}

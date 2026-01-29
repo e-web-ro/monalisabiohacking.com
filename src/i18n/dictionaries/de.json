@@ -2,6 +2,7 @@
     "navbar": {
         "about": "Über mich",
         "services": "Dienstleistungen",
+        "shop": "Shop",
         "blog": "Blog",
         "contact": "Kontakt"
     },
@@ -213,5 +214,47 @@
         "typing": "Schreibt...",
         "default_answer": "Es tut mir leid, ich habe darauf in meiner Datenbank keine genaue Antwort. Bitte schreiben Sie Monalisa direkt per WhatsApp für personalisierte Details.",
         "assistant_name": "Monalisa KI-Assistent"
+    },
+    "shop": {
+        "title": "Digitaler",
+        "title_accent": "Shop",
+        "subtitle": "E-Books, praktische Leitfäden und exklusive Ressourcen für Biohacking und Ernährung.",
+        "filters": {
+            "all": "Alle",
+            "ebooks": "E-Books",
+            "guides": "Leitfäden",
+            "protocols": "Protokolle"
+        },
+        "add_to_cart": "In den Warenkorb",
+        "buy_now": "Jetzt Kaufen",
+        "cart": {
+            "title": "Ihr Warenkorb",
+            "empty": "Ihr Warenkorb ist leer",
+            "total": "Gesamt",
+            "checkout": "Zur Kasse",
+            "remove": "Entfernen"
+        },
+        "digital_product": "Digitales Produkt",
+        "instant_delivery": "Sofortige E-Mail-Lieferung nach Zahlungseingang",
+        "products": {
+            "biohacking_guide": {
+                "title": "Biohacking Leitfaden",
+                "description": "Alles, was Sie wissen müssen, um Ihre Biologie zu optimieren.",
+                "price": "29 €",
+                "category": "guides"
+            },
+            "hormonal_balance": {
+                "title": "Hormonelle Balance",
+                "description": "Vollständiges Protokoll zur natürlichen Hormonregulierung.",
+                "price": "45 €",
+                "category": "protocols"
+            },
+            "smoothies_ebook": {
+                "title": "Smoothies E-Book",
+                "description": "50 funktionelle Smoothie-Rezepte.",
+                "price": "19 €",
+                "category": "ebooks"
+            }
+        }
     }
 }
