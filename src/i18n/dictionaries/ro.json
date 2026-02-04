@@ -51,6 +51,12 @@
         "cta": "Rezervă Acum",
         "popular": "Cel mai popular",
         "items": {
+            "service_1770244180192": {
+                "title": "Serviciu Nou",
+                "price": "0 €",
+                "period": "1h",
+                "description": "..."
+            },
             "explorare": {
                 "title": "Apel Gratuit de explorare",
                 "description": "Discuție inițială pentru a ne cunoaște și a stabili obiectivele.",
@@ -237,6 +243,12 @@
         "digital_product": "Produs Digital",
         "instant_delivery": "Livrare instantă pe email după plată",
         "products": {
+            "prod_1770244033872": {
+                "title": "Produs Nou",
+                "price": "0 €",
+                "description": "...",
+                "category": "ebooks"
+            },
             "biohacking_guide": {
                 "title": "Ghid de Biohacking",
                 "description": "Tot ce trebuie să știi pentru a-ți optimiza biologia.",

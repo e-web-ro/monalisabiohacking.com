@@ -51,6 +51,12 @@
         "cta": "Book Now",
         "popular": "Most Popular",
         "items": {
+            "service_1770244180192": {
+                "title": "Serviciu Nou",
+                "price": "0 €",
+                "period": "1h",
+                "description": "..."
+            },
             "explorare": {
                 "title": "Free Discovery Call",
                 "description": "Initial discussion to get to know each other and set goals.",
@@ -237,6 +243,12 @@
         "digital_product": "Digital Product",
         "instant_delivery": "Instant email delivery after payment",
         "products": {
+            "prod_1770244033872": {
+                "title": "Produs Nou",
+                "price": "0 €",
+                "description": "...",
+                "category": "ebooks"
+            },
             "biohacking_guide": {
                 "title": "Biohacking Guide",
                 "description": "Everything you need to know to optimize your biology.",

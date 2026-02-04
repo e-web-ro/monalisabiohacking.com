@@ -3,6 +3,8 @@ import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { ServicesGrid } from "@/components/sections/ServicesGrid";
 
+export const dynamic = 'force-dynamic';
+
 export default async function ServicesPage({ params }: { params: Promise<{ lang: "ro" | "en" }> }) {
     const { lang } = await params;
     const dict = await getDictionary(lang);

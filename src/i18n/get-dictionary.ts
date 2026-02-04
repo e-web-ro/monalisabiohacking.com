@@ -1,9 +1,11 @@
 import "server-only";
+import fs from "fs/promises";
+import path from "path";
 
 const dictionaries = {
-    en: () => import("./dictionaries/en.json").then((module) => module.default),
-    ro: () => import("./dictionaries/ro.json").then((module) => module.default),
-    de: () => import("./dictionaries/de.json").then((module) => module.default),
+    en: () => fs.readFile(path.join(process.cwd(), "src/i18n/dictionaries/en.json"), "utf8").then(JSON.parse),
+    ro: () => fs.readFile(path.join(process.cwd(), "src/i18n/dictionaries/ro.json"), "utf8").then(JSON.parse),
+    de: () => fs.readFile(path.join(process.cwd(), "src/i18n/dictionaries/de.json"), "utf8").then(JSON.parse),
 };
 
 export const getDictionary = async (locale: "en" | "ro" | "de") =>

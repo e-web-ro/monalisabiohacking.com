@@ -53,7 +53,7 @@ export function FloatingContact({ dict, lang }: FloatingContactProps) {
         scrollToBottom();
     }, [messages, isOpen]);
 
-    const handleSendMessage = (e?: React.FormEvent) => {
+    const handleSendMessage = async (e?: React.FormEvent) => {
         e?.preventDefault();
         if (!inputValue.trim()) return;
 
@@ -68,30 +68,38 @@ export function FloatingContact({ dict, lang }: FloatingContactProps) {
         setInputValue("");
         setIsTyping(true);
 
-        // AI Logic
-        setTimeout(() => {
-            const lowerInput = userMsg.text.toLowerCase();
-            let responseText = dict.chat.default_answer;
+        try {
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: userMsg.text, lang }),
+            });
 
-            const knowledge = chatKnowledge[lang as keyof typeof chatKnowledge] || chatKnowledge.ro;
+            if (!response.ok) throw new Error('Network response was not ok');
 
-            for (const entry of knowledge) {
-                if (entry.keywords.some(keyword => lowerInput.includes(keyword))) {
-                    responseText = entry.answer;
-                    break;
-                }
-            }
+            const data = await response.json();
 
             const botMsg: Message = {
                 id: (Date.now() + 1).toString(),
-                text: responseText,
+                text: data.reply || dict.chat.default_answer,
                 sender: "bot",
                 timestamp: new Date()
             };
 
             setMessages(prev => [...prev, botMsg]);
+        } catch (error) {
+            console.error('Chat Error:', error);
+            // Fallback logic could go here, or just show default answer
+            const botMsg: Message = {
+                id: (Date.now() + 1).toString(),
+                text: dict.chat.default_answer,
+                sender: "bot",
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, botMsg]);
+        } finally {
             setIsTyping(false);
-        }, 1000);
+        }
     };
 
     return (

@@ -1,5 +1,5 @@
 "use client";
-import { useState, Suspense } from "react";
+import { useState, Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -42,6 +42,22 @@ function BookingSystemContent({ dict, lang }: BookingSystemProps) {
         notes: ""
     });
     const [isSubmitted, setIsSubmitted] = useState(false);
+
+    useEffect(() => {
+        if (searchParams.get('success') === 'true') {
+            const name = searchParams.get('name');
+            const email = searchParams.get('email');
+            const service = searchParams.get('service');
+
+            if (name) setFormData(prev => ({ ...prev, name: decodeURIComponent(name) }));
+            if (email) setFormData(prev => ({ ...prev, email: decodeURIComponent(email) }));
+            if (service) {
+                const s = services.find(srv => srv.id === service);
+                if (s) setSelectedService(s);
+            }
+            setIsSubmitted(true);
+        }
+    }, [searchParams, services]);
 
     const handleNext = () => setStep(prev => prev + 1);
     const handleBack = () => setStep(prev => prev - 1);
@@ -397,7 +413,34 @@ function BookingSystemContent({ dict, lang }: BookingSystemProps) {
                                             </div>
 
                                             <button
-                                                onClick={() => setIsSubmitted(true)}
+                                                onClick={async () => {
+                                                    try {
+                                                        const response = await fetch('/api/checkout', {
+                                                            method: 'POST',
+                                                            headers: { 'Content-Type': 'application/json' },
+                                                            body: JSON.stringify({
+                                                                items: [{
+                                                                    title: selectedService?.title + ` (${date ? format(date, "PPP", { locale: getDateLocale() }) : ""} - ${time})`,
+                                                                    price: selectedService?.price,
+                                                                    quantity: 1
+                                                                }],
+                                                                cancel_url: window.location.href,
+                                                                success_url: `${window.location.origin}/${lang}/programare?success=true&service=${selectedService?.id}&name=${encodeURIComponent(formData.name)}&email=${encodeURIComponent(formData.email)}`,
+                                                                customer_email: formData.email
+                                                            }),
+                                                        });
+
+                                                        const data = await response.json();
+                                                        if (data.url) {
+                                                            window.location.href = data.url;
+                                                        } else {
+                                                            alert("Error starting payment");
+                                                        }
+                                                    } catch (e) {
+                                                        console.error(e);
+                                                        alert("Connection error");
+                                                    }
+                                                }}
                                                 className="w-full py-4 bg-primary text-black font-bold rounded-xl hover:bg-emerald-400 transition-all flex items-center justify-center gap-2 group shadow-[0_0_30px_rgba(16,185,129,0.2)]"
                                             >
                                                 Confirmă și Plătește {selectedService?.price}

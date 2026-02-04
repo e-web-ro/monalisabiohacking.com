@@ -71,7 +71,7 @@ export function ServicesGrid({ services, dict, lang }: ServicesGridProps) {
                                 </p>
 
                                 <div className="space-y-4 mb-8">
-                                    {service.features.slice(0, 4).map((feature: string, i: number) => (
+                                    {(service.features || []).slice(0, 4).map((feature: string, i: number) => (
                                         <div key={i} className="flex items-center gap-3 text-sm text-zinc-300">
                                             <div className="w-1.5 h-1.5 rounded-full bg-primary/40 shrink-0" />
                                             <span className="line-clamp-1">{feature}</span>

@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { motion, AnimatePresence } from "framer-motion";
@@ -39,7 +40,19 @@ export function ShopSection({ dict, lang }: ShopSectionProps) {
     const [checkoutStep, setCheckoutStep] = useState(1);
     const [orderSuccess, setOrderSuccess] = useState(false);
 
-    // Load cart from localStorage
+    const searchParams = useSearchParams();
+
+    // Check for success payment return
+    useEffect(() => {
+        if (searchParams.get('success') === 'true') {
+            setOrderSuccess(true);
+            setCart([]);
+            localStorage.removeItem("monalisa-cart");
+            window.history.replaceState({}, '', window.location.pathname); // Clean URL
+        }
+    }, [searchParams]);
+
+    // Saved cart
     useEffect(() => {
         const savedCart = localStorage.getItem("monalisa-cart");
         if (savedCart) {
@@ -53,7 +66,9 @@ export function ShopSection({ dict, lang }: ShopSectionProps) {
 
     // Save cart to localStorage
     useEffect(() => {
-        localStorage.setItem("monalisa-cart", JSON.stringify(cart));
+        if (cart.length > 0) { // Only save if not empty (avoids overwriting on initial load before clear)
+            localStorage.setItem("monalisa-cart", JSON.stringify(cart));
+        }
     }, [cart]);
 
     const products = Object.entries(dict.shop.products).map(([id, product]: [string, any]) => ({
@@ -99,15 +114,35 @@ export function ShopSection({ dict, lang }: ShopSectionProps) {
         return acc + (price * item.quantity);
     }, 0);
 
-    const handleCheckout = (e: React.FormEvent) => {
+    const handleCheckout = async (e: React.FormEvent) => {
         e.preventDefault();
         if (checkoutStep < 2) {
             setCheckoutStep(2);
         } else {
-            // Finalize order
-            setOrderSuccess(true);
-            setCart([]);
-            localStorage.removeItem("monalisa-cart");
+            // Call Stripe API
+            try {
+                const response = await fetch('/api/checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        items: cart,
+                        cancel_url: window.location.href,
+                        success_url: `${window.location.origin}/${lang}/shop?success=true`,
+                        customer_email: (e.target as any).email?.value // Try to get email if available, or rely on Stripe input
+                    }),
+                });
+
+                const data = await response.json();
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    console.error("Stripe error:", data.error);
+                    alert("Eroare la inițierea plății: " + dict.error?.generic || "Vă rugăm încercați din nou.");
+                }
+            } catch (err) {
+                console.error("Checkout error:", err);
+                alert("Eroare de conexiune.");
+            }
         }
     };
 

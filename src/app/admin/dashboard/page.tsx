@@ -193,44 +193,107 @@ export default function AdminDashboard() {
 
                 <section className="p-8">
                     {activeTab === "shop" && (
-                        <div className="grid grid-cols-1 gap-6">
-                            {Object.entries(data[activeLang].shop.products).map(([id, product]: [string, any]) => (
-                                <div key={id} className="bg-secondary/20 p-6 rounded-2xl border border-white/5 space-y-4">
-                                    <div className="flex items-center justify-between">
-                                        <h3 className="text-zinc-500 text-xs font-bold uppercase tracking-widest">{id}</h3>
-                                        <span className="bg-primary/10 text-primary text-[10px] px-2 py-1 rounded-full font-bold uppercase">{product.category}</span>
-                                    </div>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div className="space-y-1">
-                                            <label className="text-[10px] text-zinc-600 font-bold uppercase">Titlu Produs</label>
-                                            <input
-                                                type="text"
-                                                value={product.title}
-                                                onChange={(e) => updateProduct(id, "title", e.target.value)}
-                                                className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary"
-                                            />
+                        <div className="space-y-6">
+                            <button
+                                onClick={() => {
+                                    const newId = `prod_${Date.now()}`;
+                                    setData((prev: any) => {
+                                        const newData = { ...prev };
+                                        ["ro", "en", "de"].forEach(lang => {
+                                            if (!newData[lang].shop.products) newData[lang].shop.products = {};
+                                            // Prepend new product by creating a new object with the new key first
+                                            newData[lang].shop.products = {
+                                                [newId]: {
+                                                    title: "Produs Nou",
+                                                    price: "0 €",
+                                                    description: "...",
+                                                    category: "ebooks"
+                                                },
+                                                ...newData[lang].shop.products
+                                            };
+                                        });
+                                        return newData;
+                                    });
+                                }}
+                                className="w-full py-3 bg-secondary/30 hover:bg-secondary/50 border border-dashed border-zinc-700 hover:border-zinc-500 rounded-xl flex items-center justify-center gap-2 text-zinc-400 hover:text-white transition-all"
+                            >
+                                <Plus className="w-5 h-5" /> Adaugă Produs Nou
+                            </button>
+
+                            <div className="grid grid-cols-1 gap-6">
+                                {Object.entries(data[activeLang].shop.products).map(([id, product]: [string, any]) => (
+                                    <div key={id} className="bg-secondary/20 p-6 rounded-2xl border border-white/5 space-y-4 relative group">
+                                        <button
+                                            onClick={() => {
+                                                if (!confirm("Sigur ștergeți acest produs?")) return;
+                                                setData((prev: any) => {
+                                                    const newData = { ...prev };
+                                                    ["ro", "en", "de"].forEach(lang => {
+                                                        if (newData[lang]?.shop?.products?.[id]) {
+                                                            delete newData[lang].shop.products[id];
+                                                        }
+                                                    });
+                                                    return newData;
+                                                });
+                                            }}
+                                            className="absolute top-4 right-4 p-2 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100"
+                                            title="Șterge Produs"
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </button>
+
+                                        <div className="flex items-center justify-between pr-12">
+                                            <h3 className="text-zinc-500 text-xs font-bold uppercase tracking-widest">{id}</h3>
+                                            <span className="bg-primary/10 text-primary text-[10px] px-2 py-1 rounded-full font-bold uppercase">{product.category}</span>
+                                        </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div className="space-y-1">
+                                                <label className="text-[10px] text-zinc-600 font-bold uppercase">Titlu Produs</label>
+                                                <input
+                                                    type="text"
+                                                    value={product.title}
+                                                    onChange={(e) => updateProduct(id, "title", e.target.value)}
+                                                    className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary"
+                                                />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-[10px] text-zinc-600 font-bold uppercase">Preț</label>
+                                                <input
+                                                    type="text"
+                                                    value={product.price}
+                                                    onChange={(e) => updateProduct(id, "price", e.target.value)}
+                                                    className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary"
+                                                />
+                                            </div>
                                         </div>
                                         <div className="space-y-1">
-                                            <label className="text-[10px] text-zinc-600 font-bold uppercase">Preț</label>
-                                            <input
-                                                type="text"
-                                                value={product.price}
-                                                onChange={(e) => updateProduct(id, "price", e.target.value)}
+                                            <label className="text-[10px] text-zinc-600 font-bold uppercase">Categorie</label>
+                                            <select
+                                                value={product.category}
+                                                onChange={(e) => updateProduct(id, "category", e.target.value)}
                                                 className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary"
+                                            >
+                                                {Object.keys(data[activeLang].shop.filters)
+                                                    .filter(k => k !== 'all')
+                                                    .map(key => (
+                                                        <option key={key} value={key} className="bg-zinc-900">
+                                                            {data[activeLang].shop.filters[key]}
+                                                        </option>
+                                                    ))}
+                                            </select>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <label className="text-[10px] text-zinc-600 font-bold uppercase">Descriere</label>
+                                            <textarea
+                                                rows={2}
+                                                value={product.description}
+                                                onChange={(e) => updateProduct(id, "description", e.target.value)}
+                                                className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary resize-none"
                                             />
                                         </div>
                                     </div>
-                                    <div className="space-y-1">
-                                        <label className="text-[10px] text-zinc-600 font-bold uppercase">Descriere</label>
-                                        <textarea
-                                            rows={2}
-                                            value={product.description}
-                                            onChange={(e) => updateProduct(id, "description", e.target.value)}
-                                            className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary resize-none"
-                                        />
-                                    </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
                     )}
 
@@ -249,66 +312,126 @@ export default function AdminDashboard() {
                     )}
 
                     {activeTab === "services" && (
-                        <div className="grid grid-cols-1 gap-6">
-                            {Object.entries(data[activeLang].services.items).map(([id, service]: [string, any]) => (
-                                <div key={id} className="bg-secondary/20 p-6 rounded-2xl border border-white/5 space-y-4">
-                                    <h3 className="text-zinc-500 text-xs font-bold uppercase">{id}</h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                        <div className="space-y-1">
-                                            <label className="text-[10px] text-zinc-600 font-bold uppercase">Titlu Serviciu</label>
-                                            <input
-                                                type="text"
-                                                value={service.title}
-                                                onChange={(e) => {
-                                                    const newData = { ...data };
-                                                    newData[activeLang].services.items[id].title = e.target.value;
-                                                    setData(newData);
-                                                }}
-                                                className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary"
-                                            />
-                                        </div>
-                                        <div className="space-y-1">
-                                            <label className="text-[10px] text-zinc-600 font-bold uppercase">Preț</label>
-                                            <input
-                                                type="text"
-                                                value={service.price}
-                                                onChange={(e) => {
-                                                    const newData = { ...data };
-                                                    newData[activeLang].services.items[id].price = e.target.value;
-                                                    setData(newData);
-                                                }}
-                                                className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary"
-                                            />
-                                        </div>
-                                        <div className="space-y-1">
-                                            <label className="text-[10px] text-zinc-600 font-bold uppercase">Perioadă</label>
-                                            <input
-                                                type="text"
-                                                value={service.period}
-                                                onChange={(e) => {
-                                                    const newData = { ...data };
-                                                    newData[activeLang].services.items[id].period = e.target.value;
-                                                    setData(newData);
-                                                }}
-                                                className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <label className="text-[10px] text-zinc-600 font-bold uppercase">Descriere</label>
-                                        <textarea
-                                            rows={2}
-                                            value={service.description}
-                                            onChange={(e) => {
-                                                const newData = { ...data };
-                                                newData[activeLang].services.items[id].description = e.target.value;
-                                                setData(newData);
+                        <div className="space-y-6">
+                            <button
+                                onClick={() => {
+                                    const newId = `service_${Date.now()}`;
+                                    setData((prev: any) => {
+                                        const newData = { ...prev };
+                                        ["ro", "en", "de"].forEach(lang => {
+                                            if (!newData[lang].services.items) newData[lang].services.items = {};
+                                            newData[lang].services.items = {
+                                                [newId]: {
+                                                    title: "Serviciu Nou",
+                                                    price: "0 €",
+                                                    period: "1h",
+                                                    description: "..."
+                                                },
+                                                ...newData[lang].services.items
+                                            };
+                                        });
+                                        return newData;
+                                    });
+                                }}
+                                className="w-full py-3 bg-secondary/30 hover:bg-secondary/50 border border-dashed border-zinc-700 hover:border-zinc-500 rounded-xl flex items-center justify-center gap-2 text-zinc-400 hover:text-white transition-all"
+                            >
+                                <Plus className="w-5 h-5" /> Adaugă Serviciu Nou
+                            </button>
+
+                            <div className="grid grid-cols-1 gap-6">
+                                {Object.entries(data[activeLang].services.items).map(([id, service]: [string, any]) => (
+                                    <div key={id} className="bg-secondary/20 p-6 rounded-2xl border border-white/5 space-y-4 relative group">
+                                        <button
+                                            onClick={() => {
+                                                if (!confirm("Sigur ștergeți acest serviciu?")) return;
+                                                setData((prev: any) => {
+                                                    const newData = { ...prev };
+                                                    ["ro", "en", "de"].forEach(lang => {
+                                                        if (newData[lang]?.services?.items?.[id]) {
+                                                            delete newData[lang].services.items[id];
+                                                        }
+                                                    });
+                                                    return newData;
+                                                });
                                             }}
-                                            className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary resize-none"
-                                        />
+                                            className="absolute top-4 right-4 p-2 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100"
+                                            title="Șterge Serviciu"
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </button>
+
+                                        <h3 className="text-zinc-500 text-xs font-bold uppercase">{id}</h3>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                            <div className="space-y-1">
+                                                <label className="text-[10px] text-zinc-600 font-bold uppercase">Titlu Serviciu</label>
+                                                <input
+                                                    type="text"
+                                                    value={service.title}
+                                                    onChange={(e) => {
+                                                        const newData = { ...data };
+                                                        newData[activeLang].services.items[id].title = e.target.value;
+                                                        setData(newData);
+                                                    }}
+                                                    className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary"
+                                                />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-[10px] text-zinc-600 font-bold uppercase">Preț</label>
+                                                <input
+                                                    type="text"
+                                                    value={service.price}
+                                                    onChange={(e) => {
+                                                        const newData = { ...data };
+                                                        newData[activeLang].services.items[id].price = e.target.value;
+                                                        setData(newData);
+                                                    }}
+                                                    className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary"
+                                                />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-[10px] text-zinc-600 font-bold uppercase">Perioadă</label>
+                                                <input
+                                                    type="text"
+                                                    value={service.period}
+                                                    onChange={(e) => {
+                                                        const newData = { ...data };
+                                                        newData[activeLang].services.items[id].period = e.target.value;
+                                                        setData(newData);
+                                                    }}
+                                                    className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <label className="text-[10px] text-zinc-600 font-bold uppercase">Descriere</label>
+                                            <textarea
+                                                rows={2}
+                                                value={service.description}
+                                                onChange={(e) => {
+                                                    const newData = { ...data };
+                                                    newData[activeLang].services.items[id].description = e.target.value;
+                                                    setData(newData);
+                                                }}
+                                                className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary resize-none"
+                                            />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <label className="text-[10px] text-zinc-600 font-bold uppercase">Caracteristici (separate prin virgulă)</label>
+                                            <textarea
+                                                rows={2}
+                                                value={service.features ? service.features.join(", ") : ""}
+                                                onChange={(e) => {
+                                                    const newData = { ...data };
+                                                    newData[activeLang].services.items[id].features = e.target.value.split(",").map((s: string) => s.trim()).filter((s: string) => s);
+                                                    setData(newData);
+                                                }}
+                                                placeholder="Ex: Evaluare sumară, Identificare obiective, Q&A"
+                                                className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary resize-none"
+                                            />
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
                     )}
                 </section>
