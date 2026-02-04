@@ -11,7 +11,9 @@ import {
     LogOut,
     ChevronRight,
     Search,
-    Globe
+    Globe,
+    FileText,
+    Image as ImageIcon
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -20,9 +22,10 @@ export default function AdminDashboard() {
     const [activeTab, setActiveTab] = useState("shop");
     const [activeLang, setActiveLang] = useState("ro");
     const [data, setData] = useState<any>(null);
-    const [blogContent, setBlogContent] = useState("");
+    const [blogPosts, setBlogPosts] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [editModes, setEditModes] = useState<any>({});
 
     useEffect(() => {
         fetchData();
@@ -39,7 +42,7 @@ export default function AdminDashboard() {
                 const contentData = await contentRes.json();
                 const blogData = await blogRes.json();
                 setData(contentData.dictionaries);
-                setBlogContent(blogData.rawContent);
+                setBlogPosts(blogData.blogPosts);
             } else {
                 window.location.href = "/admin/login";
             }
@@ -100,7 +103,7 @@ export default function AdminDashboard() {
             await fetch("/api/admin/blog", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ rawContent: blogContent })
+                body: JSON.stringify({ blogPosts })
             });
             alert("Blog salvat cu succes!");
         } catch (err) {
@@ -114,6 +117,14 @@ export default function AdminDashboard() {
         setData((prev: any) => {
             const newData = { ...prev };
             newData[activeLang].shop.products[id][field] = value;
+            return newData;
+        });
+    };
+
+    const updateBlogPost = (index: number, field: string, value: string) => {
+        setBlogPosts((prev: any) => {
+            const newData = { ...prev };
+            newData[activeLang][index][field] = value;
             return newData;
         });
     };
@@ -147,7 +158,7 @@ export default function AdminDashboard() {
                         onClick={() => setActiveTab("blog")}
                         className={cn("w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all", activeTab === "blog" ? "bg-primary text-black font-bold" : "text-zinc-500 hover:text-white hover:bg-white/5")}
                     >
-                        <BookOpen className="w-5 h-5" /> Blog (Code)
+                        <BookOpen className="w-5 h-5" /> Blog
                     </button>
                 </nav>
 
@@ -167,19 +178,17 @@ export default function AdminDashboard() {
                 <header className="p-8 border-b border-white/5 flex items-center justify-between sticky top-0 bg-background/80 backdrop-blur-md z-10">
                     <div className="flex items-center gap-4">
                         <h2 className="text-2xl font-bold text-white capitalize">{activeTab} Management</h2>
-                        {activeTab !== "blog" && (
-                            <div className="flex bg-black/40 rounded-full p-1 border border-white/5">
-                                {["ro", "en", "de"].map(l => (
-                                    <button
-                                        key={l}
-                                        onClick={() => setActiveLang(l)}
-                                        className={cn("px-4 py-1 text-xs rounded-full font-bold uppercase transition-all", activeLang === l ? "bg-white text-black" : "text-zinc-500 hover:text-zinc-300")}
-                                    >
-                                        {l}
-                                    </button>
-                                ))}
-                            </div>
-                        )}
+                        <div className="flex bg-black/40 rounded-full p-1 border border-white/5">
+                            {["ro", "en", "de"].map(l => (
+                                <button
+                                    key={l}
+                                    onClick={() => setActiveLang(l)}
+                                    className={cn("px-4 py-1 text-xs rounded-full font-bold uppercase transition-all", activeLang === l ? "bg-white text-black" : "text-zinc-500 hover:text-zinc-300")}
+                                >
+                                    {l}
+                                </button>
+                            ))}
+                        </div>
                     </div>
 
                     <button
@@ -201,7 +210,6 @@ export default function AdminDashboard() {
                                         const newData = { ...prev };
                                         ["ro", "en", "de"].forEach(lang => {
                                             if (!newData[lang].shop.products) newData[lang].shop.products = {};
-                                            // Prepend new product by creating a new object with the new key first
                                             newData[lang].shop.products = {
                                                 [newId]: {
                                                     title: "Produs Nou",
@@ -297,17 +305,210 @@ export default function AdminDashboard() {
                         </div>
                     )}
 
-                    {activeTab === "blog" && (
-                        <div className="space-y-4">
-                            <div className="flex items-center justify-between bg-primary/5 p-4 rounded-xl border border-primary/20 text-primary text-sm">
-                                <p>Modul expert: Editați codul sursă al bazei de date blog (src/lib/blog-data.ts)</p>
+                    {activeTab === "blog" && blogPosts && (
+                        <div className="space-y-6">
+                            <button
+                                onClick={() => {
+                                    setBlogPosts((prev: any) => {
+                                        const newData = { ...prev };
+                                        ["ro", "en", "de"].forEach(lang => {
+                                            if (!newData[lang]) newData[lang] = [];
+                                            newData[lang].unshift({
+                                                slug: `nou-articol-${Date.now()}`,
+                                                title: "Titlu Articol Nou",
+                                                excerpt: "Scurtă descriere...",
+                                                date: new Date().toLocaleDateString('ro-RO'),
+                                                readTime: "3 min de citit",
+                                                image: "/cell-abstract.png",
+                                                author: "Monalisa Orendt",
+                                                authorImage: "/monalisa.png",
+                                                category: "General",
+                                                content: "<p>Conținutul articolului...</p>"
+                                            });
+                                        });
+                                        return newData;
+                                    });
+                                }}
+                                className="w-full py-3 bg-secondary/30 hover:bg-secondary/50 border border-dashed border-zinc-700 hover:border-zinc-500 rounded-xl flex items-center justify-center gap-2 text-zinc-400 hover:text-white transition-all"
+                            >
+                                <Plus className="w-5 h-5" /> Adaugă Articol Nou
+                            </button>
+
+                            <div className="flex flex-col gap-6">
+                                {blogPosts[activeLang].map((post: any, index: number) => (
+                                    <div key={index} className="bg-secondary/20 p-6 rounded-2xl border border-white/5 space-y-6 relative group">
+                                        <button
+                                            onClick={() => {
+                                                if (!confirm("Sigur ștergeți acest articol?")) return;
+                                                setBlogPosts((prev: any) => {
+                                                    const newData = { ...prev };
+                                                    ["ro", "en", "de"].forEach(lang => {
+                                                        if (newData[lang]) {
+                                                            // Try to find matching index or slug in other langs if synchronized, but here we just remove by index for simplicity across langs if they are synced order, 
+                                                            // BUT they might not be. For safety, we only delete from current lang or try to delete matching slugs?
+                                                            // The user added structure implies we might want to delete across all languages if it's the "same" post.
+                                                            // For now, let's just delete from the CURRENT language. Use strict index.
+                                                            if (lang === activeLang) {
+                                                                newData[lang] = newData[lang].filter((_: any, i: number) => i !== index);
+                                                            }
+                                                        }
+                                                    });
+                                                    return newData;
+                                                });
+                                            }}
+                                            className="absolute top-4 right-4 p-2 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 z-10"
+                                            title="Șterge Articol"
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </button>
+
+                                        {/* Header Inputs */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div className="space-y-1">
+                                                <label className="text-[10px] text-zinc-600 font-bold uppercase">Titlu</label>
+                                                <input
+                                                    type="text"
+                                                    value={post.title}
+                                                    onChange={(e) => updateBlogPost(index, "title", e.target.value)}
+                                                    className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-white font-bold focus:outline-none focus:border-primary"
+                                                />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-[10px] text-zinc-600 font-bold uppercase">Categorie</label>
+                                                <input
+                                                    type="text"
+                                                    value={post.category}
+                                                    onChange={(e) => updateBlogPost(index, "category", e.target.value)}
+                                                    className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Meta Inputs */}
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                            <div className="space-y-1">
+                                                <label className="text-[10px] text-zinc-600 font-bold uppercase">Slug (URL)</label>
+                                                <input
+                                                    type="text"
+                                                    value={post.slug}
+                                                    onChange={(e) => updateBlogPost(index, "slug", e.target.value)}
+                                                    className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-zinc-400 text-xs font-mono focus:outline-none focus:border-primary"
+                                                />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-[10px] text-zinc-600 font-bold uppercase">Data</label>
+                                                <input
+                                                    type="text"
+                                                    value={post.date}
+                                                    onChange={(e) => updateBlogPost(index, "date", e.target.value)}
+                                                    className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-white text-xs focus:outline-none focus:border-primary"
+                                                />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-[10px] text-zinc-600 font-bold uppercase">Timp Citire</label>
+                                                <input
+                                                    type="text"
+                                                    value={post.readTime}
+                                                    onChange={(e) => updateBlogPost(index, "readTime", e.target.value)}
+                                                    className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-white text-xs focus:outline-none focus:border-primary"
+                                                />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-[10px] text-zinc-600 font-bold uppercase">Imagine (cale)</label>
+                                                <input
+                                                    type="text"
+                                                    value={post.image}
+                                                    onChange={(e) => updateBlogPost(index, "image", e.target.value)}
+                                                    className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-zinc-400 text-xs focus:outline-none focus:border-primary"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Content Inputs */}
+                                        <div className="space-y-1">
+                                            <label className="text-[10px] text-zinc-600 font-bold uppercase">Rezumat (apare în listă)</label>
+                                            <textarea
+                                                rows={2}
+                                                value={post.excerpt}
+                                                onChange={(e) => updateBlogPost(index, "excerpt", e.target.value)}
+                                                className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-2 text-zinc-300 focus:outline-none focus:border-primary resize-none"
+                                            />
+                                        </div>
+
+                                        <div className="space-y-1">
+                                            <div className="flex items-center justify-between">
+                                                <label className="text-[10px] text-zinc-600 font-bold uppercase">
+                                                    Conținut Articol
+                                                </label>
+                                                <div className="flex items-center gap-2">
+                                                    <button
+                                                        onClick={() => {
+                                                            const newModes = { ...editModes };
+                                                            newModes[index] = newModes[index] === "text" ? "html" : "text";
+                                                            setEditModes(newModes);
+                                                        }}
+                                                        className={cn(
+                                                            "px-2 py-1 text-[10px] rounded border transition-all",
+                                                            editModes[index] === "text"
+                                                                ? "bg-primary text-black border-primary font-bold"
+                                                                : "bg-transparent text-zinc-500 border-zinc-700 hover:text-white"
+                                                        )}
+                                                    >
+                                                        {editModes[index] === "text" ? "📝 Text Simplu" : "🧑‍💻 HTML"}
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            {editModes[index] === "text" ? (
+                                                <div className="space-y-2">
+                                                    <div className="text-[10px] text-zinc-500 italic">
+                                                        * În acest mod, fiecare linie nouă devine un paragraf automat.
+                                                    </div>
+                                                    <textarea
+                                                        rows={15}
+                                                        value={(() => {
+                                                            // Convert HTML to simple text for display
+                                                            // This is a basic conversion for convenience
+                                                            return post.content
+                                                                .replaceAll("</p>", "\n")
+                                                                .replaceAll("<br>", "\n")
+                                                                .replaceAll("<br/>", "\n")
+                                                                .replace(/<[^>]+>/g, "") // Strip other tags
+                                                                .split("\n")
+                                                                .filter((l: string) => l.trim())
+                                                                .join("\n\n");
+                                                        })()}
+                                                        onChange={(e) => {
+                                                            // Convert text back to HTML paragraphs
+                                                            const html = e.target.value
+                                                                .split(/\n\s*\n/) // Split by double newlines for paragraphs
+                                                                .map((p: string) => p.trim())
+                                                                .filter((p: string) => p)
+                                                                .map((p: string) => `<p>${p}</p>`)
+                                                                .join("");
+                                                            updateBlogPost(index, "content", html);
+                                                        }}
+                                                        className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-4 text-zinc-300 font-mono text-sm focus:outline-none focus:border-primary"
+                                                        placeholder="Scrieți textul aici. Lăsați un rând liber între paragrafe."
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <div className="space-y-2">
+                                                    <div className="text-[10px] text-zinc-500 italic">
+                                                        * Editați codul HTML direct. Folosiți &lt;p&gt;, &lt;h2&gt;, &lt;ul&gt; etc.
+                                                    </div>
+                                                    <textarea
+                                                        rows={15}
+                                                        value={post.content}
+                                                        onChange={(e) => updateBlogPost(index, "content", e.target.value)}
+                                                        className="w-full bg-black/20 border border-white/5 rounded-lg px-4 py-4 text-zinc-300 font-mono text-sm focus:outline-none focus:border-primary"
+                                                    />
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-                            <textarea
-                                value={blogContent}
-                                onChange={(e) => setBlogContent(e.target.value)}
-                                className="w-full h-[600px] bg-black/40 border border-white/5 rounded-2xl p-6 text-zinc-400 font-mono text-xs focus:outline-none focus:border-primary"
-                                spellCheck={false}
-                            />
                         </div>
                     )}
 

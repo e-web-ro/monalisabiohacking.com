@@ -21,24 +21,23 @@ async function checkAuth() {
 export async function GET() {
     if (!await checkAuth()) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const blogPath = path.join(process.cwd(), "src/lib/blog-data.ts");
-    const content = await fs.readFile(blogPath, "utf-8");
-
-    // This is a bit hacky since it's a TS file, but for a simple project we can use regex or 
-    // better yet, we should have the data in JSON if we want to edit it easily.
-    // For now, let's assume we want to read the posts.
-
-    return NextResponse.json({ rawContent: content });
+    const blogPath = path.join(process.cwd(), "src/lib/blog-posts.json");
+    try {
+        const content = await fs.readFile(blogPath, "utf-8");
+        return NextResponse.json({ blogPosts: JSON.parse(content) });
+    } catch (err) {
+        return NextResponse.json({ error: "Failed to read blog data" }, { status: 500 });
+    }
 }
 
 export async function POST(request: Request) {
     if (!await checkAuth()) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const { rawContent } = await request.json();
-    const blogPath = path.join(process.cwd(), "src/lib/blog-data.ts");
+    const { blogPosts } = await request.json();
+    const blogPath = path.join(process.cwd(), "src/lib/blog-posts.json");
 
     try {
-        await fs.writeFile(blogPath, rawContent, "utf-8");
+        await fs.writeFile(blogPath, JSON.stringify(blogPosts, null, 2), "utf-8");
         return NextResponse.json({ success: true });
     } catch (err) {
         return NextResponse.json({ error: "Failed to save" }, { status: 500 });
