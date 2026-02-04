@@ -3,7 +3,19 @@ import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { ServicesGrid } from "@/components/sections/ServicesGrid";
 
+import { Metadata } from 'next';
+
 export const dynamic = 'force-dynamic';
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+    const { lang } = await params;
+    const dict = await getDictionary(lang as "ro" | "en" | "de");
+
+    return {
+        title: `${dict.services.title} | Monalisa Biohacking`,
+        description: dict.services.subtitle,
+    };
+}
 
 export default async function ServicesPage({ params }: { params: Promise<{ lang: "ro" | "en" }> }) {
     const { lang } = await params;
