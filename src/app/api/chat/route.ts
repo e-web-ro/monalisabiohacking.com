@@ -3,7 +3,7 @@ import OpenAI from 'openai';
 import { chatKnowledge } from '@/lib/chat-knowledge';
 
 const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: process.env.OPENAI_API_KEY || "dummy-key",
 });
 
 export async function POST(req: Request) {
