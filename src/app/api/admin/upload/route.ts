@@ -15,6 +15,7 @@ export async function POST(req: Request) {
         // Use @vercel/blob to store the file
         const blob = await put(file.name, file, {
             access: 'public',
+            addRandomSuffix: true,
         });
 
         console.log(`File uploaded successfully to Vercel Blob: ${blob.url}`);
