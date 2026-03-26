@@ -1,0 +1,28 @@
+[2026-02-11T18:51:44.014Z] --- NEW BOOKING REQUEST STARTED ---
+[2026-02-11T18:51:44.016Z] Payload: Name=0, Email=d_dobroiu@yahoo.com, Service=Apel Gratuit de explorare
+[2026-02-11T18:51:44.018Z] Attempting to send Admin Email...
+[2026-02-11T18:51:44.034Z] --- NEW BOOKING REQUEST STARTED ---
+[2026-02-11T18:51:44.036Z] Payload: Name=0, Email=d_dobroiu@yahoo.com, Service=Apel Gratuit de explorare
+[2026-02-11T18:51:44.038Z] Attempting to send Admin Email...
+[2026-02-11T18:51:44.317Z] Admin Email SUCCESS. ID: 81c88f19-98a1-4206-99f9-37d8fe2ed2ae
+[2026-02-11T18:51:44.319Z] Attempting to send Customer Email to d_dobroiu@yahoo.com...
+[2026-02-11T18:51:44.401Z] Admin Email SUCCESS. ID: 51ede343-660a-490a-911f-b2c32dfe2b91
+[2026-02-11T18:51:44.403Z] Attempting to send Customer Email to d_dobroiu@yahoo.com...
+[2026-02-11T18:51:44.864Z] Customer Email ERROR: Too many requests. You can only make 2 requests per second. See rate limit response headers for more information. Or contact support to increase rate limit.
+[2026-02-11T18:51:44.865Z] --- REQUEST COMPLETED SUCCESSFULLY ---
+[2026-02-11T18:51:45.053Z] Customer Email ERROR: Too many requests. You can only make 2 requests per second. See rate limit response headers for more information. Or contact support to increase rate limit.
+[2026-02-11T18:51:45.056Z] --- REQUEST COMPLETED SUCCESSFULLY ---
+[2026-02-11T18:54:18.567Z] --- NEW BOOKING REQUEST STARTED ---
+[2026-02-11T18:54:18.568Z] Payload: Name=0, Email=d_dobroiu@yahoo.com, Service=Apel Gratuit de explorare
+[2026-02-11T18:54:18.569Z] Attempting to send Admin Email...
+[2026-02-11T18:54:18.905Z] Admin Email SUCCESS. ID: 697defd0-b36e-42b7-b1a7-fa3de330af2e
+[2026-02-11T18:54:18.907Z] Attempting to send Customer Email to d_dobroiu@yahoo.com...
+[2026-02-11T18:54:19.126Z] Customer Email SUCCESS. ID: 509f1f98-8365-4e4c-b7a0-83e190df39e6
+[2026-02-11T18:54:19.127Z] --- REQUEST COMPLETED SUCCESSFULLY ---
+[2026-02-11T21:43:48.199Z] --- NEW BOOKING REQUEST STARTED ---
+[2026-02-11T21:43:48.202Z] Payload: Name=dobroiu, Email=d_dobroiu@yahoo.com, Service=Serviciu Nou
+[2026-02-11T21:43:48.204Z] Attempting to send Admin Email...
+[2026-02-11T21:43:48.911Z] Admin Email SUCCESS. ID: c53af9c3-2627-48bd-beb6-d83c37f5b29f
+[2026-02-11T21:43:48.912Z] Attempting to send Customer Email to d_dobroiu@yahoo.com...
+[2026-02-11T21:43:49.161Z] Customer Email SUCCESS. ID: bf2201ae-abd8-4ac5-90b0-f897ee33d2b3
+[2026-02-11T21:43:49.162Z] --- REQUEST COMPLETED SUCCESSFULLY ---

@@ -1,0 +1,321 @@
+{
+    "navbar": {
+        "about": "Despre",
+        "services": "Servicii",
+        "shop": "Magazin",
+        "blog": "Blog",
+        "contact": "Contact"
+    },
+    "hero": {
+        "badge": "Nou: Protocolul de Regenerare 2026",
+        "title1": "Biohacking pentru",
+        "title2": "Femeia Modernă",
+        "description": "Recâștigă-ți energia, echilibrează-ți hormonii și inversează procesul de îmbătrânire prin nutriție funcțională și știință aplicată.",
+        "cta_primary": "Începe Transformarea",
+        "cta_secondary": "Vezi Serviciile"
+    },
+    "features": {
+        "title": "Abordarea Mea",
+        "card1_title": "Energie Maximă",
+        "card1_desc": "Protocoale mitocondriale pentru a elimina oboseala cronică.",
+        "card2_title": "Claritate Mentală",
+        "card2_desc": "Nootropice naturale și strategii pentru focus neîntrerupt.",
+        "card3_title": "Optimizare Metabolică",
+        "card3_desc": "Reglarea glicemiei și flexibilitate metabolică reală."
+    },
+    "why_choose": {
+        "title": "De ce să mă alegi",
+        "title_accent": "pe mine?",
+        "card1_title": "Abordare personalizată",
+        "card1_desc": "Cred cu tărie că nu există soluții universale când vine vorba de sănătate. Fiecare persoană este unică, iar ceea ce funcționează pentru tine poate fi complet diferit de altcineva. De aceea, îți ofer o abordare 100% personalizată, adaptată stilului tău de viață.",
+        "card2_title": "Nutriție funcțională",
+        "card2_desc": "Nu vei primi o listă rigidă de alimente sau un meniu tipic. Aplic principiile nutriției funcționale pentru a înțelege cauzele profunde ale dezechilibrelor tale: digestie, inflamație, somn, stres, hormoni.",
+        "card3_title": "Integrare cu biohacking",
+        "card3_desc": "Biohacking nu este despre gadgeturi scumpe, ci despre obiceiuri inteligente și eficiente care îți pot schimba viața. Înveți cum să îți optimizezi energia, somnul, focusul și regenerarea prin pași simpli."
+    },
+    "about": {
+        "badge": "Despre Mine",
+        "title": "Misiunea Mea:",
+        "subtitle": "Echilibru & Longevitate",
+        "quote_img": "Sănătatea nu înseamnă restricție, ci libertate.",
+        "desc1": "Sunt Mona Lisa – consilier în nutriție, pasionată de biohacking, echilibru hormonal și longevitate conștientă.",
+        "desc2": "Am creat acest spațiu pentru femeile care își doresc mai mult decât o dietă. Pentru cele care vor să înțeleagă cum funcționează cu adevărat corpul lor.",
+        "quote_text": "Cred că la 50 sau 60 de ani poți avea energie ca la 30, dacă înveți să-ți asculți corpul și să-l susții corect.",
+        "cta": "Lucrează cu mine"
+    },
+    "services": {
+        "badge": "Investește în tine",
+        "title": "Serviciile",
+        "title_accent": "Noastre",
+        "subtitle": "Alege pachetul care se potrivește cel mai bine nevoilor tale actuale.",
+        "cta": "Rezervă Acum",
+        "popular": "Cel mai popular",
+        "items": {
+            "service_1770244180192": {
+                "title": "Serviciu Nou",
+                "price": "0 €",
+                "period": "1h",
+                "description": "..."
+            },
+            "explorare": {
+                "title": "Apel Gratuit de explorare",
+                "description": "Discuție inițială pentru a ne cunoaște și a stabili obiectivele.",
+                "period": "o singură dată",
+                "price": "Gratuit",
+                "duration": "1 h",
+                "features": [
+                    "Evaluare sumară",
+                    "Identificare obiective",
+                    "Q&A Scurt"
+                ]
+            },
+            "consultatie": {
+                "title": "Consultație Inițială",
+                "description": "Analiză detaliată a stilului de viață și a istoricului nutrițional.",
+                "period": "/ ședință",
+                "price": "60 €",
+                "duration": "1 h",
+                "features": [
+                    "Anamneză completă",
+                    "Analiză jurnal alimentar",
+                    "Recomandări primare"
+                ]
+            },
+            "restart": {
+                "title": "Restart Nutrițional",
+                "description": "Program de 1 lună pentru resetarea obiceiurilor alimentare.",
+                "period": "/ program",
+                "price": "120 €",
+                "duration": "1 h",
+                "badge": "Program 1 Lună",
+                "features": [
+                    "Plan personalizat",
+                    "4 Ședințe săptămânale",
+                    "Monitorizare constantă"
+                ]
+            },
+            "reset": {
+                "title": "RESET COMPLET",
+                "description": "Transformare profundă pe parcursul a 3 luni.",
+                "period": "/ program",
+                "price": "330 €",
+                "duration": "1 h",
+                "badge": "Program 3 Luni",
+                "features": [
+                    "Tot ce include Restart",
+                    "Protocol Biohacking",
+                    "Suport prioritar",
+                    "Ajustări dinamice"
+                ]
+            },
+            "longeviq": {
+                "title": "LongevIQ™ – Optimizare",
+                "description": "Program premium de 6 luni pentru performanță totală și longevitate.",
+                "period": "/ program",
+                "price": "650 €",
+                "duration": "1 h",
+                "badge": "Program 6 Luni",
+                "features": [
+                    "Biohacking Avansat",
+                    "Analiză analize sânge",
+                    "Plan suplimente",
+                    "Acces nelimitat WhatsApp"
+                ]
+            }
+        }
+    },
+    "testimonials": {
+        "title": "Ce spun",
+        "title_accent": "Clientele",
+        "subtitle": "Povești reale de transformare și vindecare.",
+        "list": [
+            {
+                "content": "Nu am crezut niciodată că mâncatul sănătos poate fi atât de gustos și satisfăcător. Abordarea Monalisei mi-a schimbat viața în bine.",
+                "author": "Jessica M.",
+                "role": "Client Transformat"
+            },
+            {
+                "content": "Îndrumarea oferită de Monalisa Orendt nu numai că mi-a îmbunătățit obiceiurile alimentare, dar a avut și un impact pozitiv asupra stării mele generale de bine.",
+                "author": "Carlos L.",
+                "role": "Biohacker Începător"
+            },
+            {
+                "content": "Expertiza și sprijinul Monalisei m-au făcut să realizez importanța nutriției în menținerea unui stil de viață sănătos.",
+                "author": "Sophie B.",
+                "role": "Lifestyle Enthusiast"
+            },
+            {
+                "content": "Programul LongevIQ mi-a redat claritatea mentală. Nu mai am acele stări de 'brain fog' de după-amiază.",
+                "author": "Elena P.",
+                "role": "Antreprenor"
+            },
+            {
+                "content": "Monalisa este un ghid extraordinar. Recomand cu drag oricui vrea să-și optimizeze sănătatea prin metode științifice.",
+                "author": "Andrei D.",
+                "role": "Biohacker"
+            }
+        ]
+    },
+    "blog": {
+        "badge": "Educație & Resurse",
+        "title": "Ultimele Articole din",
+        "title_accent": "Blog",
+        "subtitle": "Explorăm împreună știința longevității, secretele peptidelor și strategii de nutriție.",
+        "cta_view_all": "Vezi toate articolele",
+        "cta_read": "Citește mai mult"
+    },
+    "footer": {
+        "desc": "Transformare reală prin nutriție funcțională și biohacking personalizat.",
+        "contact": "Contact",
+        "info": "Informații",
+        "terms": "Termeni și Condiții",
+        "privacy": "Politica de Confidențialitate",
+        "cookies": "Politica Cookies",
+        "rights": "Toate drepturile rezervate.",
+        "created_by": "Realizat de"
+    },
+    "common": {
+        "loading": "Se încarcă...",
+        "sessions": "Sesiuni de",
+        "back_home": "Înapoi la Home"
+    },
+    "booking": {
+        "title": "Rezervare",
+        "step1": "1. Alege Serviciul",
+        "step2": "2. Alege Data & Ora",
+        "step3": "3. Detaliile Tale",
+        "next": "Pasul Următor",
+        "back": "Înapoi",
+        "summary": "Sumar Rezervare",
+        "service": "Serviciu",
+        "date_time": "Data & Ora",
+        "modify": "Modifică",
+        "name": "Nume Complet",
+        "phone": "Telefon",
+        "email": "Email",
+        "notes": "Note adiționale (opțional)",
+        "notes_placeholder": "Dacă ai întrebări specifice...",
+        "confirm": "Confirmă Rezervarea",
+        "success_title": "Rezervare Trimisă!",
+        "success_message": "Mulțumesc, {name}! Cererea ta pentru {service} a fost înregistrată.",
+        "success_email": "Vei primi o confirmare pe email ({email}) în scurt timp.",
+        "back_home": "Înapoi la Home",
+        "select_date": "Selectează Ziua",
+        "select_time": "Selectează Ora",
+        "select_date_first": "Alege o dată din calendar mai întâi",
+        "duration": "minute"
+    },
+    "contact_form": {
+        "title": "Informații de Contact",
+        "title_main": "Contactează Monalisa",
+        "subtitle_main": "Ești gata să începi transformarea? Scrie-mi și hai să construim împreună cel mai bun plan pentru sănătatea ta.",
+        "subtitle": "Răspund personal la toate mesajele în termen de 24-48 de ore. Pentru urgențe sau programări rapide, îmi puteți scrie pe WhatsApp.",
+        "location_title": "Locație",
+        "location_desc": "71717 Beilstein, Germany",
+        "location_online": "Disponibilă și online, internațional",
+        "phone_title": "Telefon / WhatsApp",
+        "email_title": "Email",
+        "social_title": "Social Media",
+        "form_title": "Trimite un Mesaj",
+        "form_subtitle": "Completează formularul și te voi contacta pentru a programa Apelul Gratuit de Explorare.",
+        "label_name": "Nume",
+        "label_surname": "Prenume",
+        "label_email": "Email",
+        "label_subject": "Subiect / Serviciu Dorit",
+        "label_message": "Mesaj",
+        "placeholder_name": "Numele tău",
+        "placeholder_surname": "Prenumele tău",
+        "placeholder_email": "adresa@email.com",
+        "placeholder_message": "Povestește-mi puțin despre obiectivele tale...",
+        "submit": "Trimite Mesajul",
+        "option_default": "Alege o opțiune...",
+        "option_other": "Altceva"
+    },
+    "blog_page": {
+        "title": "Blog &",
+        "title_accent": "Resurse",
+        "subtitle": "Articole despre nutriție funcțională, biohacking, echilibru hormonal și povești reale de transformare.",
+        "back_to_blog": "Înapoi la Blog",
+        "share": "Distribuie",
+        "liked_article": "Ți-a plăcut articolul?",
+        "author_label": "Autor"
+    },
+    "chat": {
+        "welcome": "Bună! Sunt asistentul virtual AI. Întreabă-mă despre servicii, prețuri, peptide sau contact!",
+        "status": "Răspunde instant",
+        "placeholder": "Scrie o întrebare...",
+        "typing": "Scrie...",
+        "default_answer": "Îmi pare rău, nu am un răspuns exact pentru asta în baza mea de date. Te rog să îi scrii Monalisei direct pe WhatsApp pentru detalii personalizate.",
+        "assistant_name": "Monalisa AI Assistant"
+    },
+    "shop": {
+        "title": "Magazin",
+        "title_accent": "Digital",
+        "subtitle": "Ebooks, ghiduri practice și resurse exclusive pentru biohacking și nutriție.",
+        "filters": {
+            "all": "Toate",
+            "ebooks": "Ebook-uri",
+            "guides": "Ghiduri",
+            "protocols": "Protocoale"
+        },
+        "add_to_cart": "Adaugă în coș",
+        "buy_now": "Cumpără Acum",
+        "cart": {
+            "title": "Coșul tău",
+            "empty": "Coșul este gol",
+            "total": "Total",
+            "checkout": "Finalizează Comanda",
+            "remove": "Elimină"
+        },
+        "digital_product": "Produs Digital",
+        "instant_delivery": "Livrare instantă pe email după plată",
+        "products": {
+            "prod_1770244033872": {
+                "title": "Produs Nou",
+                "price": "0 €",
+                "description": "...",
+                "category": "ebooks",
+                "file_url": "https://monalisabiohacking.com/downloads/produs-nou.pdf"
+            },
+            "biohacking_guide": {
+                "title": "Ghid de Biohacking",
+                "description": "Tot ce trebuie să știi pentru a-ți optimiza biologia.",
+                "price": "29 €",
+                "category": "guides",
+                "file_url": "https://monalisabiohacking.com/downloads/ghid-biohacking.pdf"
+            },
+            "hormonal_balance": {
+                "title": "Echilibru Hormonal",
+                "description": "Protocol complet pentru reglarea naturală a hormonilor.",
+                "price": "45 €",
+                "category": "protocols",
+                "file_url": "https://monalisabiohacking.com/downloads/echilibru-hormonal.pdf"
+            },
+            "smoothies_ebook": {
+                "title": "Ebook Smoothies",
+                "description": "50 de rețete de smoothie-uri funcționale.",
+                "price": "19 €",
+                "category": "ebooks",
+                "file_url": "https://monalisabiohacking.com/downloads/ebook-smoothies.pdf"
+            }
+        }
+    },
+    "metadata": {
+        "title": "Monalisa Biohacking | Consilier Nutriție & Performanță",
+        "description": "Consilier Nutriție Funcțională & Biohacking. Optimizează-ți sănătatea și performanța prin metode științifice și holistice.",
+        "keywords": [
+            "Biohacking Romania",
+            "Nutritie Functionala",
+            "Sanatate Holistica",
+            "Performanta Mentala",
+            "Lifestyle Optimization",
+            "Monalisa Orendt",
+            "Dieta Ketogenica",
+            "Jeun Intermitent",
+            "Suplimente Biohacking"
+        ],
+        "og": {
+            "siteName": "Monalisa Biohacking"
+        }
+    }
+}

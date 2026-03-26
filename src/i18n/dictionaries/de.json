@@ -1,0 +1,317 @@
+{
+    "navbar": {
+        "about": "Über mich",
+        "services": "Dienstleistungen",
+        "shop": "Shop",
+        "blog": "Blog",
+        "contact": "Kontakt"
+    },
+    "hero": {
+        "badge": "Neu: Regenerationsprotokoll 2026",
+        "title1": "Biohacking für die",
+        "title2": "Moderne Frau",
+        "description": "Gewinnen Sie Ihre Energie zurück, bringen Sie Ihre Hormone ins Gleichgewicht und kehren Sie den Alterungsprozess durch funktionelle Ernährung und angewandte Wissenschaft um.",
+        "cta_primary": "Transformation Starten",
+        "cta_secondary": "Dienstleistungen ansehen"
+    },
+    "features": {
+        "title": "Mein Ansatz",
+        "card1_title": "Maximale Energie",
+        "card1_desc": "Mitochondriale Protokolle zur Beseitigung chronischer Müdigkeit.",
+        "card2_title": "Geistige Klarheit",
+        "card2_desc": "Natürliche Nootropika und Strategien für ununterbrochenen Fokus.",
+        "card3_title": "Stoffwechsel-Optimierung",
+        "card3_desc": "Blutzuckerregulierung und echte Stoffwechselflexibilität."
+    },
+    "why_choose": {
+        "title": "Warum Sie sich für mich",
+        "title_accent": "entscheiden sollten?",
+        "card1_title": "Personalisierter Ansatz",
+        "card1_desc": "Ich glaube fest daran, dass es keine universellen Gesundheitslösungen gibt. Jeder Mensch ist einzigartig. Deshalb biete ich einen 100% personalisierten Ansatz, der an Ihren Lebensstil angepasst ist.",
+        "card2_title": "Funktionelle Ernährung",
+        "card2_desc": "Sie erhalten keine starre Lebensmittelliste. Ich wende Prinzipien der funktionellen Ernährung an, um die tiefen Ursachen Ihrer Ungleichgewichte zu verstehen: Verdauung, Entzündung, Schlaf, Stress, Hormone.",
+        "card3_title": "Biohacking-Integration",
+        "card3_desc": "Biohacking bedeutet keine teuren Gadgets, sondern intelligente, effiziente Gewohnheiten, die Ihr Leben verändern können. Lernen Sie, Ihre Energie, Ihren Schlaf, Ihren Fokus und Ihre Regeneration zu optimieren."
+    },
+    "about": {
+        "badge": "Über Mich",
+        "title": "Meine Mission:",
+        "subtitle": "Gleichgewicht & Langlebigkeit",
+        "quote_img": "Gesundheit ist keine Einschränkung, sie ist Freiheit.",
+        "desc1": "Ich bin Mona Lisa – Ernährungsberaterin, leidenschaftlich für Biohacking, hormonelles Gleichgewicht und bewusste Langlebigkeit.",
+        "desc2": "Ich habe diesen Raum für Frauen geschaffen, die mehr als nur eine Diät wollen. Für diejenigen, die wirklich verstehen wollen, wie ihr Körper funktioniert.",
+        "quote_text": "Ich glaube, dass Sie mit 50 oder 60 die Energie einer 30-Jährigen haben können, wenn Sie lernen, auf Ihren Körper zu hören und ihn richtig zu unterstützen.",
+        "cta": "Arbeiten Sie mit mir"
+    },
+    "services": {
+        "badge": "Investieren Sie in sich selbst",
+        "title": "Unsere",
+        "title_accent": "Dienstleistungen",
+        "subtitle": "Wählen Sie das Paket, das Ihren aktuellen Bedürfnissen am besten entspricht.",
+        "cta": "Jetzt Buchen",
+        "popular": "Am beliebtesten",
+        "items": {
+            "service_1770244180192": {
+                "title": "Serviciu Nou",
+                "price": "0 €",
+                "period": "1h",
+                "description": "..."
+            },
+            "explorare": {
+                "title": "Kostenloses Erkundungsgespräch",
+                "description": "Erstes Gespräch zum Kennenlernen und Zielsetzung.",
+                "period": "einmalig",
+                "price": "Kostenlos",
+                "duration": "1 Std.",
+                "features": [
+                    "Kurze Bewertung",
+                    "Zielidentifizierung",
+                    "Kurzes Q&A"
+                ]
+            },
+            "consultatie": {
+                "title": "Erstberatung",
+                "description": "Detaillierte Analyse des Lebensstils und der Ernährungsgeschichte.",
+                "period": "/ sitzung",
+                "price": "60 €",
+                "duration": "1 Std.",
+                "features": [
+                    "Komplette Anamnese",
+                    "Analyse des Ernährungstagebuchs",
+                    "Primäre Empfehlungen"
+                ]
+            },
+            "restart": {
+                "title": "Ernährungs-Neustart",
+                "description": "1-Monats-Programm zum Zurücksetzen der Ernährungsgewohnheiten.",
+                "period": "/ programm",
+                "price": "120 €",
+                "duration": "1 Std.",
+                "badge": "1 Monats-Programm",
+                "features": [
+                    "Personalisierter Plan",
+                    "4 Wöchentliche Sitzungen",
+                    "Ständige Überwachung"
+                ]
+            },
+            "reset": {
+                "title": "KOMPLETTER RESET",
+                "description": "Tiefe Transformation über 3 Monate.",
+                "period": "/ programm",
+                "price": "330 €",
+                "duration": "1 Std.",
+                "badge": "3 Monats-Programm",
+                "features": [
+                    "Alles im Restart enthalten",
+                    "Biohacking-Protokoll",
+                    "Priorisierter Support",
+                    "Dynamische Anpassungen"
+                ]
+            },
+            "longeviq": {
+                "title": "LongevIQ™ – Optimierung",
+                "description": "Premium 6-Monats-Programm für totale Leistung und Langlebigkeit.",
+                "period": "/ programm",
+                "price": "650 €",
+                "duration": "1 Std.",
+                "badge": "6 Monats-Programm",
+                "features": [
+                    "Fortgeschrittenes Biohacking",
+                    "Analyse der Blutwerte",
+                    "Nahrungsergänzungsplan",
+                    "Unbegrenzter WhatsApp-Zugang"
+                ]
+            }
+        }
+    },
+    "testimonials": {
+        "title": "Was Kunden",
+        "title_accent": "sagen",
+        "subtitle": "Echte Geschichten von Transformation und Heilung.",
+        "list": [
+            {
+                "content": "Ich hätte nie gedacht, dass gesunde Ernährung so schmackhaft und sättigend sein kann. Monalisas Ansatz hat mein Leben zum Besseren verändert.",
+                "author": "Jessica M.",
+                "role": "Transformierte Kundin"
+            },
+            {
+                "content": "Die Beratung durch Monalisa Orendt hat nicht nur meine Essgewohnheiten verbessert, sondern sich auch positiv auf mein allgemeines Wohlbefinden ausgewirkt.",
+                "author": "Carlos L.",
+                "role": "Biohacking-Anfänger"
+            },
+            {
+                "content": "Monalisas Fachwissen und Unterstützung haben mir gezeigt, wie wichtig die Ernährung für einen gesunden Lebensstil ist.",
+                "author": "Sophie B.",
+                "role": "Lifestyle-Enthusiastin"
+            },
+            {
+                "content": "Das LongevIQ-Programm hat mir meine geistige Klarheit zurückgegeben. Ich habe keinen 'Brain Fog' mehr am Nachmittag.",
+                "author": "Elena P.",
+                "role": "Unternehmerin"
+            },
+            {
+                "content": "Monalisa ist eine außergewöhnliche Beraterin. Ich kann sie jedem wärmstens empfehlen, der seine Gesundheit optimieren möchte.",
+                "author": "Andrei D.",
+                "role": "Biohacker"
+            }
+        ]
+    },
+    "blog": {
+        "badge": "Bildung & Ressourcen",
+        "title": "Neueste Artikel aus dem",
+        "title_accent": "Blog",
+        "subtitle": "Wir erkunden gemeinsam die Wissenschaft der Langlebigkeit, die Geheimnisse der Peptide und Ernährungsstrategien.",
+        "cta_view_all": "Alle Artikel ansehen",
+        "cta_read": "Mehr lesen"
+    },
+    "footer": {
+        "desc": "Echte Transformation durch funktionelle Ernährung und personalisiertes Biohacking.",
+        "contact": "Kontakt",
+        "info": "Informationen",
+        "terms": "Allgemeine Geschäftsbedingungen",
+        "privacy": "Datenschutzrichtlinie",
+        "cookies": "Cookie-Richtlinie",
+        "rights": "Alle Rechte vorbehalten.",
+        "created_by": "Realisiert von"
+    },
+    "common": {
+        "loading": "Lädt...",
+        "sessions": "Sitzungen von",
+        "back_home": "Zurück zur Startseite"
+    },
+    "booking": {
+        "title": "Buchung",
+        "step1": "1. Dienstleistung wählen",
+        "step2": "2. Datum & Zeit wählen",
+        "step3": "3. Ihre Details",
+        "next": "Nächster Schritt",
+        "back": "Zurück",
+        "summary": "Buchungszusammenfassung",
+        "service": "Dienstleistung",
+        "date_time": "Datum & Zeit",
+        "modify": "Ändern",
+        "name": "Vollständiger Name",
+        "phone": "Telefon",
+        "email": "E-Mail",
+        "notes": "Zusätzliche Notizen (optional)",
+        "notes_placeholder": "Wenn Sie spezifische Fragen haben...",
+        "confirm": "Buchung bestätigen",
+        "success_title": "Buchung gesendet!",
+        "success_message": "Danke, {name}! Ihre Anfrage für {service} wurde registriert.",
+        "success_email": "Sie erhalten in Kürze eine Bestätigung per E-Mail ({email}).",
+        "back_home": "Zurück zur Startseite",
+        "select_date": "Tag wählen",
+        "select_time": "Zeit wählen",
+        "select_date_first": "Wählen Sie zuerst ein Datum aus dem Kalender",
+        "duration": "Minuten"
+    },
+    "contact_form": {
+        "title": "Kontaktinformationen",
+        "title_main": "Monalisa kontaktieren",
+        "subtitle_main": "Bereit, Ihre Transformation zu beginnen? Schreiben Sie mir und lassen Sie uns gemeinsam den besten Plan für Ihre Gesundheit erstellen.",
+        "subtitle": "Ich beantworte alle Nachrichten persönlich innerhalb von 24-48 Stunden. Für Notfälle oder schnelle Terminvereinbarungen schreiben Sie mir auf WhatsApp.",
+        "location_title": "Standort",
+        "location_desc": "71717 Beilstein, Deutschland",
+        "location_online": "Auch online verfügbar, international",
+        "phone_title": "Telefon / WhatsApp",
+        "email_title": "E-Mail",
+        "social_title": "Soziale Medien",
+        "form_title": "Nachricht senden",
+        "form_subtitle": "Füllen Sie das Formular aus und ich werde Sie kontaktieren, um Ihr kostenloses Erkundungsgespräch zu vereinbaren.",
+        "label_name": "Vorname",
+        "label_surname": "Nachname",
+        "label_email": "E-Mail",
+        "label_subject": "Betreff / Gewünschte Dienstleistung",
+        "label_message": "Nachricht",
+        "placeholder_name": "Ihr Vorname",
+        "placeholder_surname": "Ihr Nachname",
+        "placeholder_email": "adresse@email.com",
+        "placeholder_message": "Erzählen Sie mir etwas über Ihre Ziele...",
+        "submit": "Nachricht senden",
+        "option_default": "Wählen Sie eine Option...",
+        "option_other": "Andere"
+    },
+    "blog_page": {
+        "title": "Blog &",
+        "title_accent": "Ressourcen",
+        "subtitle": "Artikel über funktionelle Ernährung, Biohacking, hormonelles Gleichgewicht und echte Transformationsgeschichten.",
+        "back_to_blog": "Zurück zum Blog",
+        "share": "Teilen",
+        "liked_article": "Gefällt Ihnen der Artikel?",
+        "author_label": "Autor"
+    },
+    "chat": {
+        "welcome": "Hallo! Ich bin der virtuelle KI-Assistent. Fragen Sie mich nach Dienstleistungen, Preisen, Peptiden oder Kontakt!",
+        "status": "Antwortet sofort",
+        "placeholder": "Schreiben Sie eine Frage...",
+        "typing": "Schreibt...",
+        "default_answer": "Es tut mir leid, ich habe darauf in meiner Datenbank keine genaue Antwort. Bitte schreiben Sie Monalisa direkt per WhatsApp für personalisierte Details.",
+        "assistant_name": "Monalisa KI-Assistent"
+    },
+    "shop": {
+        "title": "Digitaler",
+        "title_accent": "Shop",
+        "subtitle": "E-Books, praktische Leitfäden und exklusive Ressourcen für Biohacking und Ernährung.",
+        "filters": {
+            "all": "Alle",
+            "ebooks": "E-Books",
+            "guides": "Leitfäden",
+            "protocols": "Protokolle"
+        },
+        "add_to_cart": "In den Warenkorb",
+        "buy_now": "Jetzt Kaufen",
+        "cart": {
+            "title": "Ihr Warenkorb",
+            "empty": "Ihr Warenkorb ist leer",
+            "total": "Gesamt",
+            "checkout": "Zur Kasse",
+            "remove": "Entfernen"
+        },
+        "digital_product": "Digitales Produkt",
+        "instant_delivery": "Sofortige E-Mail-Lieferung nach Zahlungseingang",
+        "products": {
+            "prod_1770244033872": {
+                "title": "Produs Nou",
+                "price": "0 €",
+                "description": "...",
+                "category": "ebooks"
+            },
+            "biohacking_guide": {
+                "title": "Biohacking Leitfaden",
+                "description": "Alles, was Sie wissen müssen, um Ihre Biologie zu optimieren.",
+                "price": "29 €",
+                "category": "guides"
+            },
+            "hormonal_balance": {
+                "title": "Hormonelle Balance",
+                "description": "Vollständiges Protokoll zur natürlichen Hormonregulierung.",
+                "price": "45 €",
+                "category": "protocols"
+            },
+            "smoothies_ebook": {
+                "title": "Smoothies E-Book",
+                "description": "50 funktionelle Smoothie-Rezepte.",
+                "price": "19 €",
+                "category": "ebooks"
+            }
+        }
+    },
+    "metadata": {
+        "title": "Monalisa Biohacking | Ernährungsberaterin & Performance",
+        "description": "Funktionelle Ernährungsberaterin & Biohacking. Optimieren Sie Ihre Gesundheit und Leistungsfähigkeit durch wissenschaftliche und ganzheitliche Methoden.",
+        "keywords": [
+            "Biohacking",
+            "Funktionelle Ernährung",
+            "Ganzheitliche Gesundheit",
+            "Geistige Leistungsfähigkeit",
+            "Lifestyle-Optimierung",
+            "Monalisa Orendt",
+            "Ketogene Diät",
+            "Intermittierendes Fasten",
+            "Biohacking Nahrungsergänzungsmittel"
+        ],
+        "og": {
+            "siteName": "Monalisa Biohacking"
+        }
+    }
+}

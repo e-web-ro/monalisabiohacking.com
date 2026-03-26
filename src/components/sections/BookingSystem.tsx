@@ -1,0 +1,537 @@
+"use client";
+import { useState, Suspense, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { ro, enUS, de } from "date-fns/locale";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, Clock, Calendar as CalendarIcon, ChevronRight, User, Mail, Phone, ArrowLeft, CreditCard } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+const timeSlots = [
+    "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"
+];
+
+interface BookingSystemProps {
+    dict: any;
+    lang: string;
+}
+
+function BookingSystemContent({ dict, lang }: BookingSystemProps) {
+    const searchParams = useSearchParams();
+    const serviceId = searchParams.get("service");
+
+    // Derive services from dictionary
+    const services = Object.entries(dict.services.items).map(([key, item]: [string, any]) => ({
+        id: key,
+        title: item.title,
+        price: item.price,
+        duration: item.duration
+    }));
+
+    const [step, setStep] = useState(1);
+    const [selectedService, setSelectedService] = useState(serviceId ? services.find(s => s.id === serviceId) || null : null);
+    const [date, setDate] = useState<Date | undefined>(undefined);
+    const [time, setTime] = useState<string | null>(null);
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        phone: "",
+        notes: ""
+    });
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isProcessing, setIsProcessing] = useState(false);
+
+    useEffect(() => {
+        if (searchParams.get('success') === 'true') {
+            const name = searchParams.get('name');
+            const email = searchParams.get('email');
+            const service = searchParams.get('service');
+
+            if (name) setFormData(prev => ({ ...prev, name: decodeURIComponent(name) }));
+            if (email) setFormData(prev => ({ ...prev, email: decodeURIComponent(email) }));
+            if (service) {
+                const s = services.find(srv => srv.id === service);
+                if (s) setSelectedService(s);
+            }
+            setIsSubmitted(true);
+        }
+    }, [searchParams, services]);
+
+    const handleNext = () => setStep(prev => prev + 1);
+    const handleBack = () => setStep(prev => prev - 1);
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        // Move to payment step
+        handleNext();
+    };
+
+    const getDateLocale = () => {
+        switch (lang) {
+            case 'de': return de;
+            case 'en': return enUS;
+            default: return ro;
+        }
+    };
+
+    if (isSubmitted) {
+        return (
+            <main className="min-h-screen bg-background">
+                <Navbar dict={dict.navbar} lang={lang} />
+                <div className="container px-4 mx-auto min-h-screen flex items-center justify-center pt-20">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="bg-secondary/30 p-12 rounded-3xl border border-primary/20 text-center max-w-2xl backdrop-blur-sm"
+                    >
+                        <div className="w-24 h-24 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-8">
+                            <Check className="w-12 h-12 text-primary" />
+                        </div>
+                        <h2 className="text-4xl font-bold text-white mb-4">{dict.booking.success_title}</h2>
+                        <p className="text-xl text-zinc-300 mb-8">
+                            {dict.booking.success_message
+                                .replace("{name}", formData.name)
+                                .replace("{service}", selectedService?.title)}
+                        </p>
+                        <p className="text-zinc-400 mb-8">
+                            {dict.booking.success_email.replace("{email}", formData.email)}
+                        </p>
+                        <a href={`/${lang}`} className="inline-block px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors">
+                            {dict.booking.back_home}
+                        </a>
+                    </motion.div>
+                </div>
+                <Footer dict={dict.footer} lang={lang} />
+            </main>
+        );
+    }
+
+    return (
+        <main className="min-h-screen bg-background">
+            <Navbar dict={dict.navbar} lang={lang} />
+
+            <section className="pt-32 pb-20">
+                <div className="container px-4 mx-auto">
+                    <div className="flex flex-col lg:flex-row gap-12">
+
+                        {/* Summary Sidebar */}
+                        <div className="w-full lg:w-1/3 order-2 lg:order-1">
+                            <div className="bg-secondary/20 p-8 rounded-2xl border border-border sticky top-32">
+                                <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                                    <Clock className="w-5 h-5 text-primary" /> {dict.booking.summary}
+                                </h3>
+
+                                <div className="space-y-6">
+                                    <div className="pb-6 border-b border-white/5">
+                                        <p className="text-sm text-zinc-500 mb-1">{dict.booking.service}</p>
+                                        <p className="text-white font-medium text-lg">
+                                            {selectedService ? selectedService.title : dict.contact_form.option_default}
+                                        </p>
+                                        {selectedService && (
+                                            <p className="text-primary text-sm mt-1">{selectedService.price} • {dict.common.sessions} {selectedService.duration}</p>
+                                        )}
+                                    </div>
+
+                                    <div className="pb-6 border-b border-white/5">
+                                        <p className="text-sm text-zinc-500 mb-1">{dict.booking.date_time}</p>
+                                        <div className="flex items-center gap-2 text-white">
+                                            <CalendarIcon className="w-4 h-4 text-zinc-400" />
+                                            {date ? format(date, "PPP", { locale: getDateLocale() }) : "-"}
+                                        </div>
+                                        <div className="flex items-center gap-2 text-white mt-2">
+                                            <Clock className="w-4 h-4 text-zinc-400" />
+                                            {time ? time : "-"}
+                                        </div>
+                                    </div>
+
+                                    {step > 1 && (
+                                        <button
+                                            onClick={() => setStep(1)}
+                                            className="text-xs text-zinc-500 hover:text-white underline"
+                                        >
+                                            {dict.booking.modify}
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Main Booking Area */}
+                        <div className="w-full lg:w-2/3 order-1 lg:order-2">
+                            {/* Progress Bar */}
+                            <div className="flex items-center justify-between mb-8 relative">
+                                <div className="absolute left-0 top-1/2 w-full h-1 bg-secondary -z-10 rounded-full" />
+                                <div
+                                    className="absolute left-0 top-1/2 h-1 bg-primary transition-all duration-300 rounded-full -z-10"
+                                    style={{ width: `${((step - 1) / 3) * 100}%` }}
+                                />
+
+                                {[1, 2, 3, 4].map((s) => (
+                                    <div
+                                        key={s}
+                                        className={cn(
+                                            "w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm border-4 transition-all duration-300",
+                                            step >= s
+                                                ? "bg-primary border-background text-black"
+                                                : "bg-secondary border-background text-zinc-500"
+                                        )}
+                                    >
+                                        {s}
+                                    </div>
+                                ))}
+                            </div>
+
+                            <AnimatePresence mode="wait">
+                                {step === 1 && (
+                                    <motion.div
+                                        key="step1"
+                                        initial={{ opacity: 0, x: 20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: -20 }}
+                                        className="space-y-8"
+                                    >
+                                        <h2 className="text-3xl font-bold text-white">{dict.booking.step1}</h2>
+                                        <div className="grid grid-cols-1 gap-4">
+                                            {services.map((service) => (
+                                                <div
+                                                    key={service.id}
+                                                    onClick={() => setSelectedService(service)}
+                                                    className={cn(
+                                                        "p-6 rounded-xl border cursor-pointer transition-all flex items-center justify-between group",
+                                                        selectedService?.id === service.id
+                                                            ? "bg-primary/10 border-primary shadow-[0_0_15px_rgba(16,185,129,0.2)]"
+                                                            : "bg-secondary/20 border-border hover:border-zinc-600 hover:bg-secondary/40"
+                                                    )}
+                                                >
+                                                    <div>
+                                                        <h3 className={cn("font-bold text-lg", selectedService?.id === service.id ? "text-primary" : "text-white")}>
+                                                            {service.title}
+                                                        </h3>
+                                                        <p className="text-zinc-500 text-sm mt-1">{dict.common.sessions} {service.duration}</p>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <span className={cn("font-bold text-xl block", selectedService?.id === service.id ? "text-white" : "text-zinc-300")}>
+                                                            {service.price}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        <div className="flex justify-end pt-8">
+                                            <button
+                                                onClick={handleNext}
+                                                disabled={!selectedService}
+                                                className="px-8 py-3 bg-white text-black font-bold rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors flex items-center gap-2"
+                                            >
+                                                {dict.booking.next} <ChevronRight className="w-5 h-5" />
+                                            </button>
+                                        </div>
+                                    </motion.div>
+                                )}
+
+                                {step === 2 && (
+                                    <motion.div
+                                        key="step2"
+                                        initial={{ opacity: 0, x: 20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: -20 }}
+                                        className="space-y-8"
+                                    >
+                                        <h2 className="text-3xl font-bold text-white">{dict.booking.step2}</h2>
+
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                            <div>
+                                                <h4 className="text-zinc-400 mb-4 font-medium">{dict.booking.select_date}</h4>
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={date}
+                                                    onSelect={setDate}
+                                                    className="rounded-xl border border-border w-full"
+                                                    disabled={(date) => date < new Date() || date.getDay() === 0 || date.getDay() === 6} // Disable weekends/past
+                                                    locale={getDateLocale()}
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <h4 className="text-zinc-400 mb-4 font-medium">{dict.booking.select_time}</h4>
+                                                {!date ? (
+                                                    <div className="h-full flex items-center justify-center border border-dashed border-zinc-800 rounded-xl p-8 text-zinc-600">
+                                                        {dict.booking.select_date_first}
+                                                    </div>
+                                                ) : (
+                                                    <div className="grid grid-cols-3 gap-3">
+                                                        {timeSlots.map((t) => (
+                                                            <button
+                                                                key={t}
+                                                                onClick={() => setTime(t)}
+                                                                className={cn(
+                                                                    "py-2 rounded-lg text-sm font-medium transition-all border",
+                                                                    time === t
+                                                                        ? "bg-primary text-black border-primary"
+                                                                        : "bg-secondary/40 text-white border-transparent hover:border-zinc-600"
+                                                                )}
+                                                            >
+                                                                {t}
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-between pt-8 border-t border-white/5 mt-8">
+                                            <button
+                                                onClick={handleBack}
+                                                className="text-zinc-400 hover:text-white flex items-center gap-2"
+                                            >
+                                                <ArrowLeft className="w-5 h-5" /> {dict.booking.back}
+                                            </button>
+                                            <button
+                                                onClick={handleNext}
+                                                disabled={!date || !time}
+                                                className="px-8 py-3 bg-white text-black font-bold rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors flex items-center gap-2"
+                                            >
+                                                {dict.booking.next} <ChevronRight className="w-5 h-5" />
+                                            </button>
+                                        </div>
+                                    </motion.div>
+                                )}
+
+                                {step === 3 && (
+                                    <motion.div
+                                        key="step3"
+                                        initial={{ opacity: 0, x: 20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: -20 }}
+                                        className="space-y-8"
+                                    >
+                                        <h2 className="text-3xl font-bold text-white">{dict.booking.step3}</h2>
+
+                                        <form onSubmit={handleSubmit} className="space-y-6">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <div className="space-y-2">
+                                                    <label className="text-sm text-zinc-400 flex items-center gap-2"><User className="w-4 h-4" /> {dict.booking.name}</label>
+                                                    <input
+                                                        required
+                                                        type="text"
+                                                        value={formData.name}
+                                                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                                        className="w-full bg-secondary/30 border border-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50"
+                                                        placeholder={dict.contact_form.placeholder_name}
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <label className="text-sm text-zinc-400 flex items-center gap-2"><Phone className="w-4 h-4" /> {dict.booking.phone}</label>
+                                                    <input
+                                                        required
+                                                        type="tel"
+                                                        value={formData.phone}
+                                                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                                        className="w-full bg-secondary/30 border border-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50"
+                                                        placeholder="Ex: 07xx xxx xxx"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="space-y-2">
+                                                <label className="text-sm text-zinc-400 flex items-center gap-2"><Mail className="w-4 h-4" /> {dict.booking.email}</label>
+                                                <input
+                                                    required
+                                                    type="email"
+                                                    value={formData.email}
+                                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                                    className="w-full bg-secondary/30 border border-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50"
+                                                    placeholder={dict.contact_form.placeholder_email}
+                                                />
+                                            </div>
+
+                                            <div className="space-y-2">
+                                                <label className="text-sm text-zinc-400">{dict.booking.notes}</label>
+                                                <textarea
+                                                    rows={4}
+                                                    value={formData.notes}
+                                                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                                                    className="w-full bg-secondary/30 border border-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 resize-none"
+                                                    placeholder={dict.booking.notes_placeholder}
+                                                ></textarea>
+                                            </div>
+
+                                            <div className="flex justify-between pt-8 border-t border-white/5 mt-8 items-center">
+                                                <button
+                                                    type="button"
+                                                    onClick={handleBack}
+                                                    className="text-zinc-400 hover:text-white flex items-center gap-2"
+                                                >
+                                                    <ArrowLeft className="w-5 h-5" /> {dict.booking.back}
+                                                </button>
+                                                <button
+                                                    type="submit"
+                                                    className="px-8 py-3 bg-primary text-black font-bold rounded-full hover:bg-emerald-400 transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:scale-105"
+                                                >
+                                                    {dict.shop?.cart?.checkout || "Continuă la Plată"}
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </motion.div>
+                                )}
+
+                                {step === 4 && (
+                                    <motion.div
+                                        key="step4"
+                                        initial={{ opacity: 0, x: 20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: -20 }}
+                                        className="space-y-8"
+                                    >
+                                        <h2 className="text-3xl font-bold text-white">4. Plata Online</h2>
+
+                                        <div className="bg-secondary/30 p-8 rounded-2xl border border-primary/20 space-y-6">
+                                            <div className="flex items-center justify-between pb-6 border-b border-white/5">
+                                                <div>
+                                                    <h4 className="text-white font-bold text-xl">{selectedService?.title}</h4>
+                                                    <p className="text-zinc-500 text-sm">Programare pentru {date ? format(date, "PPP", { locale: getDateLocale() }) : ""} la ora {time}</p>
+                                                </div>
+                                                <span className="text-3xl font-bold text-primary">{selectedService?.price}</span>
+                                            </div>
+
+                                            <div className="space-y-4">
+                                                <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10">
+                                                    <CreditCard className="text-primary w-6 h-6" />
+                                                    <div className="flex-1">
+                                                        <p className="text-white font-medium">Plată Securizată cu Cardul</p>
+                                                        <p className="text-xs text-zinc-500">Stripe / Netopia</p>
+                                                    </div>
+                                                </div>
+
+                                                <div className="p-4 rounded-xl border border-yellow-500/20 bg-yellow-500/5 text-yellow-200/80 text-xs italic">
+                                                    * Vei fi redirecționat către o pagină securizată pentru a finaliza plata.
+                                                </div>
+                                            </div>
+
+                                            <button
+                                                disabled={isProcessing}
+                                                onClick={async () => {
+                                                    if (isProcessing) return;
+                                                    setIsProcessing(true);
+
+                                                    try {
+                                                        const priceStr = selectedService?.price || "";
+
+                                                        // ULTRA-ROBUST PRICE DETECTION LOGIC
+                                                        let isFree = false;
+                                                        const lowerPrice = priceStr.toLowerCase();
+
+                                                        // 1. Check for explicit FREE keywords
+                                                        if (lowerPrice.includes("gratuit") || lowerPrice.includes("free") || lowerPrice.includes("gratis")) {
+                                                            isFree = true;
+                                                        }
+                                                        // 2. Check for explicit ZERO
+                                                        else if (priceStr === "0" || priceStr === "0 €" || priceStr.includes("0€")) {
+                                                            isFree = true;
+                                                        }
+                                                        else {
+                                                            // 3. Extract purely numeric value
+                                                            const digitsOnly = priceStr.replace(/[^0-9]/g, '');
+                                                            const numericVal = parseInt(digitsOnly);
+
+                                                            if (isNaN(numericVal) || numericVal === 0) {
+                                                                // If no digits or 0, assume free
+                                                                isFree = true;
+                                                            } else {
+                                                                // Has positive digits -> PAID
+                                                                isFree = false;
+                                                            }
+                                                        }
+
+                                                        if (isFree) {
+                                                            const response = await fetch('/api/booking', {
+                                                                method: 'POST',
+                                                                headers: { 'Content-Type': 'application/json' },
+                                                                body: JSON.stringify({
+                                                                    name: formData.name,
+                                                                    email: formData.email,
+                                                                    phone: formData.phone,
+                                                                    service: selectedService?.title,
+                                                                    date: date ? format(date, "PPP", { locale: getDateLocale() }) : "",
+                                                                    time: time,
+                                                                    notes: formData.notes
+                                                                }),
+                                                            });
+
+                                                            if (response.ok) {
+                                                                const data = await response.json();
+                                                                window.location.href = `${window.location.origin}/${lang}/programare?success=true&service=${selectedService?.id}&name=${encodeURIComponent(formData.name)}&email=${encodeURIComponent(formData.email)}`;
+                                                            } else {
+                                                                const err = await response.json();
+                                                                alert(`Eroare la procesarea rezervării: ${err.error || response.statusText}`);
+                                                                setIsProcessing(false);
+                                                            }
+                                                        } else {
+                                                            // Stripe Logic
+                                                            const response = await fetch('/api/checkout', {
+                                                                method: 'POST',
+                                                                headers: { 'Content-Type': 'application/json' },
+                                                                body: JSON.stringify({
+                                                                    items: [{
+                                                                        title: selectedService?.title + ` (${date ? format(date, "PPP", { locale: getDateLocale() }) : ""} - ${time})`,
+                                                                        description: `Programare: ${formData.name}, ${formData.phone}`,
+                                                                        price: selectedService?.price,
+                                                                        quantity: 1
+                                                                    }],
+                                                                    cancel_url: window.location.href,
+                                                                    success_url: `${window.location.origin}/${lang}/programare?success=true&service=${selectedService?.id}&name=${encodeURIComponent(formData.name)}&email=${encodeURIComponent(formData.email)}`,
+                                                                    customer_email: formData.email
+                                                                }),
+                                                            });
+
+                                                            const data = await response.json();
+                                                            if (data.url) {
+                                                                window.location.href = data.url;
+                                                            } else {
+                                                                const errMsg = dict.error?.generic || "Eroare la inițierea plății.";
+                                                                alert(errMsg);
+                                                                setIsProcessing(false);
+                                                            }
+                                                        }
+                                                    } catch (e) {
+                                                        console.error(e);
+                                                        alert("Eroare de conexiune.");
+                                                        setIsProcessing(false);
+                                                    }
+                                                }}
+                                                className="w-full py-4 bg-primary text-black font-bold rounded-xl hover:bg-emerald-400 disabled:opacity-50 disabled:cursor-wait transition-all flex items-center justify-center gap-2 group shadow-[0_0_30px_rgba(16,185,129,0.2)]"
+                                            >
+                                                {isProcessing ? "Se procesează..." : ((selectedService?.price === "0 €" || selectedService?.price === "Gratuit") // Just for display logic
+                                                    ? "Confirmă Rezervarea Gratuită"
+                                                    : `Confirmă și Plătește ${selectedService?.price}`)}
+                                            </button>
+                                        </div>
+
+                                        <button
+                                            onClick={handleBack}
+                                            className="text-zinc-400 hover:text-white flex items-center gap-2"
+                                        >
+                                            <ArrowLeft className="w-5 h-5" /> {dict.booking.back}
+                                        </button>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main >
+    );
+}
+
+export function BookingSystem({ dict, lang }: BookingSystemProps) {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-background flex items-center justify-center text-primary">{dict.common.loading}</div>}>
+            <BookingSystemContent dict={dict} lang={lang} />
+        </Suspense>
+    );
+}
