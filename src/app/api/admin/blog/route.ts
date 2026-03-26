@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { jwtVerify } from "jose";
+import { kv } from "@vercel/kv";
 import fs from "fs/promises";
 import path from "path";
 
@@ -21,25 +22,33 @@ async function checkAuth() {
 export async function GET() {
     if (!await checkAuth()) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const blogPath = path.join(process.cwd(), "src/lib/blog-posts.json");
     try {
-        const content = await fs.readFile(blogPath, "utf-8");
-        return NextResponse.json({ blogPosts: JSON.parse(content) });
-    } catch (err) {
-        return NextResponse.json({ error: "Failed to read blog data" }, { status: 500 });
+        // Try KV first
+        let blogData = await kv.get('blog_posts');
+        if (!blogData) {
+            const blogPath = path.join(process.cwd(), "src/lib/blog-posts.json");
+            const content = await fs.readFile(blogPath, "utf-8");
+            blogData = JSON.parse(content);
+        }
+        return NextResponse.json({ blogPosts: blogData });
+    } catch (err: any) {
+        console.error("GET blog error:", err);
+        return NextResponse.json({ error: "Failed to read blog data: " + err.message }, { status: 500 });
     }
 }
 
 export async function POST(request: Request) {
     if (!await checkAuth()) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const { blogPosts } = await request.json();
-    const blogPath = path.join(process.cwd(), "src/lib/blog-posts.json");
-
     try {
-        await fs.writeFile(blogPath, JSON.stringify(blogPosts, null, 2), "utf-8");
+        const { blogPosts } = await request.json();
+        
+        // Save to KV for real-time live updates
+        await kv.set('blog_posts', blogPosts);
+        
         return NextResponse.json({ success: true });
-    } catch (err) {
-        return NextResponse.json({ error: "Failed to save" }, { status: 500 });
+    } catch (err: any) {
+        console.error("POST blog error:", err);
+        return NextResponse.json({ error: "Failed to save to KV: " + err.message }, { status: 500 });
     }
 }
