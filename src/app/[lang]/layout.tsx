@@ -14,6 +14,9 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
+export const revalidate = 0;
+
+
 const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],

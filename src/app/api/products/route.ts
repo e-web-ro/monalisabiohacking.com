@@ -1,18 +1,27 @@
 import { NextResponse } from 'next/server';
-import { readFile, writeFile } from 'fs/promises';
+import { kv } from '@vercel/kv';
+import { readFile } from 'fs/promises';
 import path from 'path';
-
-const DICT_PATH = path.join(process.cwd(), 'src/i18n/dictionaries/ro.json');
 
 export const dynamic = 'force-dynamic';
 
+async function getDictionary(lang: string) {
+    let dict: any = await kv.get(`dict_${lang}`);
+    if (!dict) {
+        const filePath = path.join(process.cwd(), `src/i18n/dictionaries/${lang}.json`);
+        dict = JSON.parse(await readFile(filePath, "utf-8"));
+    }
+    return dict;
+}
+
 export async function GET() {
     try {
-        const fileContent = await readFile(DICT_PATH, 'utf-8');
-        const json = JSON.parse(fileContent);
-        return NextResponse.json(json.shop.products);
-    } catch (error) {
-        return NextResponse.json({ error: 'Failed to load products' }, { status: 500 });
+        // Use 'ro' as default for this specific API route
+        const dict = await getDictionary('ro');
+        return NextResponse.json(dict.shop.products);
+    } catch (error: any) {
+        console.error("GET products error:", error);
+        return NextResponse.json({ error: 'Failed to load products: ' + error.message }, { status: 500 });
     }
 }
 
@@ -21,12 +30,12 @@ export async function POST(req: Request) {
         const body = await req.json();
         const { id, title, price, description, category, file_url } = body;
 
-        const fileContent = await readFile(DICT_PATH, 'utf-8');
-        const json = JSON.parse(fileContent);
+        const lang = 'ro';
+        const dict = await getDictionary(lang);
 
         const newId = id || `prod_${Date.now()}`;
 
-        json.shop.products[newId] = {
+        dict.shop.products[newId] = {
             title,
             price,
             description,
@@ -34,11 +43,13 @@ export async function POST(req: Request) {
             file_url
         };
 
-        await writeFile(DICT_PATH, JSON.stringify(json, null, 4));
+        // Save to KV for real-time live updates
+        await kv.set(`dict_${lang}`, dict);
 
         return NextResponse.json({ success: true, id: newId });
-    } catch (error) {
-        return NextResponse.json({ error: 'Failed to save product' }, { status: 500 });
+    } catch (error: any) {
+        console.error("POST products error:", error);
+        return NextResponse.json({ error: 'Failed to save product: ' + error.message }, { status: 500 });
     }
 }
 
@@ -49,16 +60,18 @@ export async function DELETE(req: Request) {
 
         if (!id) return NextResponse.json({ error: 'ID required' }, { status: 400 });
 
-        const fileContent = await readFile(DICT_PATH, 'utf-8');
-        const json = JSON.parse(fileContent);
+        const lang = 'ro';
+        const dict = await getDictionary(lang);
 
-        if (json.shop.products[id]) {
-            delete json.shop.products[id];
-            await writeFile(DICT_PATH, JSON.stringify(json, null, 4));
+        if (dict.shop.products[id]) {
+            delete dict.shop.products[id];
+            // Save to KV for real-time live updates
+            await kv.set(`dict_${lang}`, dict);
         }
 
         return NextResponse.json({ success: true });
-    } catch (error) {
-        return NextResponse.json({ error: 'Failed to delete product' }, { status: 500 });
+    } catch (error: any) {
+        console.error("DELETE products error:", error);
+        return NextResponse.json({ error: 'Failed to delete product: ' + error.message }, { status: 500 });
     }
 }
