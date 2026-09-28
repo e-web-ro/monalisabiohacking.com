@@ -10,6 +10,7 @@ interface Review {
     productTitle: string;
     name: string;
     email: string;
+    verified?: boolean;
     rating: number;
     text: string;
     status: "pending" | "approved";
@@ -88,9 +89,11 @@ export default function ReviewsAdminPage() {
                         <div key={r.id} className="bg-secondary/20 p-6 rounded-2xl border border-white/5 space-y-3">
                             <div className="flex flex-wrap items-start justify-between gap-4">
                                 <div>
-                                    <p className="text-primary text-xs uppercase tracking-widest font-bold">{r.productTitle}</p>
+                                    <p className="text-primary text-xs uppercase tracking-widest font-bold">
+                                        {r.productTitle || "Recenzie generală (prima pagină)"}
+                                    </p>
                                     <p className="text-white font-bold mt-1">
-                                        {r.name} <span className="text-zinc-500 font-normal text-sm">· {r.email}</span>
+                                        {r.name} {r.email && <span className="text-zinc-500 font-normal text-sm">· {r.email}</span>}
                                     </p>
                                     <div className="flex items-center gap-2 mt-1">
                                         <div className="flex">
@@ -99,6 +102,11 @@ export default function ReviewsAdminPage() {
                                             ))}
                                         </div>
                                         <span className="text-xs text-zinc-500">{new Date(r.createdAt).toLocaleDateString("ro-RO")}</span>
+                                        {r.verified === false ? (
+                                            <span className="text-[10px] uppercase tracking-widest bg-white/5 text-zinc-400 px-2 py-0.5 rounded-full">Vizitator</span>
+                                        ) : (
+                                            <span className="text-[10px] uppercase tracking-widest bg-primary/10 text-primary px-2 py-0.5 rounded-full">Cumpărător verificat</span>
+                                        )}
                                         {r.status === "pending" && (
                                             <span className="text-[10px] uppercase tracking-widest bg-yellow-500/10 text-yellow-500 px-2 py-0.5 rounded-full">În așteptare</span>
                                         )}

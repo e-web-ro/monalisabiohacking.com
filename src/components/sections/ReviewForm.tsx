@@ -10,6 +10,11 @@ const TEXTS = {
         for: "pentru",
         rating: "Nota ta",
         name: "Numele afișat",
+        email: "Email (opțional, nu va fi publicat)",
+        nameRequired: "Te rugăm să îți scrii numele.",
+        invalidEmail: "Adresa de email nu este validă.",
+        rate: "Ai trimis deja mai multe recenzii. Încearcă din nou mai târziu.",
+        close: "Închide",
         text: "Recenzia ta",
         placeholder: "Ce ți-a plăcut? Cum te-a ajutat?",
         submit: "Trimite recenzia",
@@ -27,6 +32,11 @@ const TEXTS = {
         for: "for",
         rating: "Your rating",
         name: "Display name",
+        email: "Email (optional, won't be published)",
+        nameRequired: "Please enter your name.",
+        invalidEmail: "This email address is not valid.",
+        rate: "You have already sent several reviews. Please try again later.",
+        close: "Close",
         text: "Your review",
         placeholder: "What did you like? How did it help you?",
         submit: "Submit review",
@@ -44,6 +54,11 @@ const TEXTS = {
         for: "für",
         rating: "Deine Bewertung",
         name: "Angezeigter Name",
+        email: "E-Mail (optional, wird nicht veröffentlicht)",
+        nameRequired: "Bitte gib deinen Namen ein.",
+        invalidEmail: "Diese E-Mail-Adresse ist ungültig.",
+        rate: "Du hast bereits mehrere Bewertungen gesendet. Bitte versuche es später erneut.",
+        close: "Schließen",
         text: "Dein Kommentar",
         placeholder: "Was hat dir gefallen? Wie hat es dir geholfen?",
         submit: "Bewertung senden",
@@ -60,14 +75,18 @@ const TEXTS = {
 
 type State = "loading" | "form" | "sending" | "done" | "invalid" | "used";
 
-export function ReviewForm({ token, lang }: { token: string; lang: string }) {
+// With a token (from the purchase email) the review is tied to a product and marked as a verified buyer.
+// Without one it is an open review about Monalisa in general, shown on the homepage once approved.
+export function ReviewForm({ token, lang, onClose }: { token: string; lang: string; onClose?: () => void }) {
     const t = TEXTS[lang as keyof typeof TEXTS] || TEXTS.ro;
-    const [state, setState] = useState<State>(token ? "loading" : "invalid");
+    const [state, setState] = useState<State>(token ? "loading" : "form");
     const [productTitle, setProductTitle] = useState("");
     const [name, setName] = useState("");
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
     const [text, setText] = useState("");
+    const [email, setEmail] = useState("");
+    const [website, setWebsite] = useState(""); // honeypot
     const [error, setError] = useState("");
 
     useEffect(() => {
@@ -88,6 +107,7 @@ export function ReviewForm({ token, lang }: { token: string; lang: string }) {
         e.preventDefault();
         setError("");
         if (rating < 1) return setError(t.chooseRating);
+        if (!token && name.trim().length < 2) return setError(t.nameRequired);
         if (text.trim().length < 10) return setError(t.min);
 
         setState("sending");
@@ -95,12 +115,14 @@ export function ReviewForm({ token, lang }: { token: string; lang: string }) {
             const res = await fetch("/api/reviews", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ token, rating, text, name }),
+                body: JSON.stringify(token ? { token, rating, text, name } : { rating, text, name, email, website }),
             });
             if (res.ok) return setState("done");
             if (res.status === 409) return setState("used");
             if (res.status === 404) return setState("invalid");
-            setError(t.error);
+            if (res.status === 429) setError(t.rate);
+            else if (res.status === 400 && (await res.json().catch(() => ({}))).error === "email") setError(t.invalidEmail);
+            else setError(t.error);
         } catch {
             setError(t.error);
         }
@@ -130,12 +152,21 @@ export function ReviewForm({ token, lang }: { token: string; lang: string }) {
                     </h1>
                     {state === "done" && <p className="text-zinc-400">{t.thanksDesc}</p>}
                 </div>
-                <Link
-                    href={`/${lang}/shop`}
-                    className="inline-block px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-zinc-200 transition-colors"
-                >
-                    {t.back}
-                </Link>
+                {onClose ? (
+                    <button
+                        onClick={onClose}
+                        className="inline-block px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-zinc-200 transition-colors"
+                    >
+                        {t.close}
+                    </button>
+                ) : (
+                    <Link
+                        href={token ? `/${lang}/shop` : `/${lang}`}
+                        className="inline-block px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-zinc-200 transition-colors"
+                    >
+                        {t.back}
+                    </Link>
+                )}
             </div>
         );
     }
@@ -144,9 +175,11 @@ export function ReviewForm({ token, lang }: { token: string; lang: string }) {
         <form onSubmit={handleSubmit} className={cn(card, "space-y-6")}>
             <div>
                 <h1 className="text-3xl font-bold text-white">{t.title}</h1>
-                <p className="text-zinc-400 mt-1">
-                    {t.for} <span className="text-primary font-medium">{productTitle}</span>
-                </p>
+                {productTitle && (
+                    <p className="text-zinc-400 mt-1">
+                        {t.for} <span className="text-primary font-medium">{productTitle}</span>
+                    </p>
+                )}
             </div>
 
             <div className="space-y-2">
@@ -177,10 +210,34 @@ export function ReviewForm({ token, lang }: { token: string; lang: string }) {
                 <input
                     value={name}
                     maxLength={80}
+                    required={!token}
                     onChange={e => setName(e.target.value)}
                     className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors"
                 />
             </div>
+
+            {!token && (
+                <div className="space-y-2">
+                    <label className="text-sm text-zinc-400">{t.email}</label>
+                    <input
+                        type="email"
+                        value={email}
+                        maxLength={200}
+                        onChange={e => setEmail(e.target.value)}
+                        className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors"
+                    />
+                    <input
+                        type="text"
+                        name="website"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        aria-hidden="true"
+                        value={website}
+                        onChange={e => setWebsite(e.target.value)}
+                        className="absolute -left-[9999px] w-px h-px opacity-0"
+                    />
+                </div>
+            )}
 
             <div className="space-y-2">
                 <label className="text-sm text-zinc-400">{t.text}</label>

@@ -5,6 +5,7 @@ import { jwtVerify } from "jose";
 // KV layout:
 //   review_token:{token} -> ReviewToken (one per purchased product, single use)
 //   reviews               -> hash { [reviewId]: Review }
+//   review_rl:{ip}        -> counter limiting open (non-buyer) submissions
 
 export interface ReviewToken {
     productId: string;
@@ -17,17 +18,18 @@ export interface ReviewToken {
 
 export interface Review {
     id: string;
-    productId: string;
+    productId: string; // "" for a general review left on the homepage
     productTitle: string;
     name: string;
-    email: string;
+    email: string; // may be "" for open reviews
+    verified?: boolean; // false for open reviews; older buyer reviews have no flag
     rating: number;
     text: string;
     status: "pending" | "approved";
     createdAt: string;
 }
 
-export type PublicReview = Omit<Review, "email" | "status">;
+export type PublicReview = Omit<Review, "email" | "status" | "verified"> & { verified: boolean };
 
 const TOKEN_TTL_SECONDS = 60 * 60 * 24 * 365; // links stay valid for a year
 
@@ -53,6 +55,10 @@ export async function getAllReviews(): Promise<Review[]> {
     return Object.values(all).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
 
+export async function getApprovedReviews(): Promise<PublicReview[]> {
+    return (await getAllReviews()).filter(r => r.status === "approved").map(toPublic);
+}
+
 export async function getReview(id: string): Promise<Review | null> {
     return kv.hget<Review>("reviews", id);
 }
@@ -67,7 +73,7 @@ export async function deleteReview(id: string) {
 
 export function toPublic(review: Review): PublicReview {
     const { id, productId, productTitle, name, rating, text, createdAt } = review;
-    return { id, productId, productTitle, name, rating, text, createdAt };
+    return { id, productId, productTitle, name, rating, text, createdAt, verified: review.verified !== false };
 }
 
 export function escapeHtml(s: string) {

@@ -10,6 +10,7 @@ import { BlogPreview } from "@/components/sections/BlogPreview";
 import { Footer } from "@/components/layout/Footer";
 
 import { getBlogPosts } from "@/lib/blog-loader";
+import { getApprovedReviews, PublicReview } from "@/lib/reviews";
 
 
 
@@ -21,6 +22,13 @@ export default async function Home({ params }: { params: Promise<{ lang: "ro" | 
   const allBlogPosts = await getBlogPosts();
   const posts = allBlogPosts[lang] || allBlogPosts.ro;
 
+  let reviews: PublicReview[] = [];
+  try {
+    reviews = await getApprovedReviews();
+  } catch (e) {
+    console.error("Failed to load reviews", e);
+  }
+
   return (
     <main className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-primary/30 selection:text-white">
       <Navbar dict={dict.navbar} lang={lang} />
@@ -29,7 +37,7 @@ export default async function Home({ params }: { params: Promise<{ lang: "ro" | 
       <WhyChooseMe dict={dict.why_choose} lang={lang} />
       <Services dict={dict.services} lang={lang} />
       <Features dict={dict.features} lang={lang} />
-      <Testimonials dict={dict.testimonials} lang={lang} />
+      <Testimonials dict={dict.testimonials} lang={lang} reviews={reviews} />
       <BlogPreview dict={dict.blog} lang={lang} posts={posts} />
       <Footer dict={dict.footer} lang={lang} />
     </main>
