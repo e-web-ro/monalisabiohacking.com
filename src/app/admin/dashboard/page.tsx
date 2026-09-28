@@ -15,6 +15,7 @@ import {
     FileText,
     Image as ImageIcon,
     CheckCircle2,
+    Star,
     X
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -162,6 +163,12 @@ export default function AdminDashboard() {
                     >
                         <BookOpen className="w-5 h-5" /> Blog
                     </button>
+                    <a
+                        href="/admin/reviews"
+                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-zinc-500 hover:text-white hover:bg-white/5"
+                    >
+                        <Star className="w-5 h-5" /> Recenzii
+                    </a>
                 </nav>
 
                 <button

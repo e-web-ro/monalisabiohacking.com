@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
 import { resend } from '@/lib/resend';
 import Stripe from 'stripe';
+import { createReviewToken, SITE_URL } from '@/lib/reviews';
 
 export async function POST(req: Request) {
     const body = await req.text();
@@ -116,11 +117,36 @@ export async function POST(req: Request) {
 
                     // 2. Send Customer Delivery Email
                     if (customerEmail) {
+                        const lang = session.metadata?.lang || 'ro';
+                        const reviewLabel = { ro: 'Lasă o recenzie', en: 'Leave a review', de: 'Bewertung abgeben' }[lang] || 'Lasă o recenzie';
+
                         // Generate HTML for purchased items
-                        const itemsHtml = lineItems.map((item) => {
+                        const itemsHtml = (await Promise.all(lineItems.map(async (item) => {
                             const product = item.price?.product as Stripe.Product;
                             const productName = product?.name || item.description || 'Digital Product';
                             const fileUrl = product?.metadata?.file_url;
+                            const productId = product?.metadata?.product_id;
+
+                            // One single-use review link per purchased product
+                            let reviewButton = '';
+                            if (productId) {
+                                try {
+                                    const token = await createReviewToken({
+                                        productId,
+                                        productTitle: productName,
+                                        email: customerEmail,
+                                        name: customerName,
+                                        sessionId: session.id,
+                                    });
+                                    reviewButton = `
+                                        <a href="${SITE_URL}/${lang}/recenzie?token=${token}" style="display: inline-block; padding: 10px 20px; background-color: #ffffff; color: #10b981; border: 1px solid #10b981; text-decoration: none; border-radius: 5px; margin-top: 10px; margin-left: 8px; font-weight: bold;">
+                                            &#9733; ${reviewLabel}
+                                        </a>
+                                    `;
+                                } catch (tokenError) {
+                                    console.error('Failed to create review token:', tokenError);
+                                }
+                            }
 
                             let actionButton = '';
                             if (fileUrl) {
@@ -137,9 +163,10 @@ export async function POST(req: Request) {
                                 <div style="border-bottom: 1px solid #eaeaea; padding: 20px 0;">
                                     <h3 style="margin: 0 0 10px 0; color: #333;">${productName}</h3>
                                     ${actionButton}
+                                    ${reviewButton}
                                 </div>
                             `;
-                        }).join('');
+                        }))).join('');
 
                         await resend.emails.send({
                             from: 'Monalisa Biohacking <onboarding@resend.dev>',

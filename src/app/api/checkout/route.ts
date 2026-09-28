@@ -3,7 +3,7 @@ import { stripe } from '@/lib/stripe';
 
 export async function POST(req: Request) {
     try {
-        const { items, success_url, cancel_url, customer_email } = await req.json();
+        const { items, success_url, cancel_url, customer_email, lang } = await req.json();
 
         console.log('[Checkout API] Received items:', JSON.stringify(items));
 
@@ -38,6 +38,7 @@ export async function POST(req: Request) {
                         description: item.description ? item.description.substring(0, 500) : undefined, // Truncate description if too long
                         metadata: {
                             file_url: item.file_url || '',
+                            product_id: item.id || '',
                         },
                     },
                     unit_amount: unitAmount,
@@ -58,6 +59,7 @@ export async function POST(req: Request) {
             success_url: callbackUrl,
             cancel_url: cancel_url || `${origin}/cancel`,
             customer_email: customer_email,
+            metadata: { lang: ['ro', 'en', 'de'].includes(lang) ? lang : 'ro' },
         });
 
         console.log('[Checkout API] Session created:', session.id);

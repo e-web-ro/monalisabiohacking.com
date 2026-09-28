@@ -15,13 +15,41 @@ import {
     X,
     Filter,
     CheckCircle2,
-    ArrowRight
+    ArrowRight,
+    Star
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ShopSectionProps {
     dict: any;
     lang: string;
+}
+
+interface ProductReview {
+    id: string;
+    name: string;
+    rating: number;
+    text: string;
+    createdAt: string;
+}
+
+const REVIEW_TEXTS = {
+    ro: { reviews: "recenzii", review: "recenzie", title: "Recenzii", verified: "Cumpărător verificat" },
+    en: { reviews: "reviews", review: "review", title: "Reviews", verified: "Verified buyer" },
+    de: { reviews: "Bewertungen", review: "Bewertung", title: "Bewertungen", verified: "Verifizierter Käufer" },
+};
+
+function Stars({ value, className }: { value: number; className?: string }) {
+    return (
+        <div className="flex">
+            {[1, 2, 3, 4, 5].map(n => (
+                <Star
+                    key={n}
+                    className={cn(className || "w-4 h-4", n <= Math.round(value) ? "text-yellow-400 fill-yellow-400" : "text-zinc-700")}
+                />
+            ))}
+        </div>
+    );
 }
 
 interface CartItem {
@@ -74,6 +102,22 @@ export function ShopSection({ dict, lang }: ShopSectionProps) {
     }, [cart]);
 
     const [products, setProducts] = useState<any[]>([]);
+    const [reviews, setReviews] = useState<Record<string, ProductReview[]>>({});
+    const [reviewsProduct, setReviewsProduct] = useState<any | null>(null);
+    const rt = REVIEW_TEXTS[lang as keyof typeof REVIEW_TEXTS] || REVIEW_TEXTS.ro;
+
+    useEffect(() => {
+        fetch('/api/reviews', { cache: 'no-store' })
+            .then(res => (res.ok ? res.json() : {}))
+            .then(setReviews)
+            .catch(e => console.error("Failed to fetch reviews", e));
+    }, []);
+
+    const reviewStats = (id: string) => {
+        const list = reviews[id] || [];
+        const avg = list.length ? list.reduce((a, r) => a + r.rating, 0) / list.length : 0;
+        return { list, avg };
+    };
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -153,7 +197,8 @@ export function ShopSection({ dict, lang }: ShopSectionProps) {
                     items: cart,
                     cancel_url: window.location.href,
                     success_url: `${window.location.origin}/${lang}/shop?success=true`,
-                    customer_email: email
+                    customer_email: email,
+                    lang
                 }),
             });
 
@@ -257,6 +302,18 @@ export function ShopSection({ dict, lang }: ShopSectionProps) {
                                             </div>
                                             <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors">{product.title}</h3>
                                             <p className="text-sm text-zinc-400 line-clamp-2">{product.description}</p>
+                                            {reviewStats(product.id).list.length > 0 && (
+                                                <button
+                                                    onClick={() => setReviewsProduct(product)}
+                                                    className="flex items-center gap-2 pt-1 text-xs text-zinc-400 hover:text-white transition-colors"
+                                                >
+                                                    <Stars value={reviewStats(product.id).avg} />
+                                                    <span>
+                                                        {reviewStats(product.id).avg.toFixed(1)} · {reviewStats(product.id).list.length}{" "}
+                                                        {reviewStats(product.id).list.length === 1 ? rt.review : rt.reviews}
+                                                    </span>
+                                                </button>
+                                            )}
                                         </div>
                                         <div className="flex items-center justify-between mt-auto">
                                             <span className="text-2xl font-bold text-white">{product.price}</span>
@@ -472,6 +529,62 @@ export function ShopSection({ dict, lang }: ShopSectionProps) {
                                     </button>
                                 </div>
                             )}
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
+            {/* Reviews Modal */}
+            <AnimatePresence>
+                {reviewsProduct && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setReviewsProduct(null)}
+                            className="absolute inset-0 bg-black/80 backdrop-blur-md"
+                        />
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                            className="bg-secondary w-full max-w-2xl max-h-[85vh] rounded-3xl border border-white/10 overflow-hidden relative z-10 shadow-2xl flex flex-col"
+                        >
+                            <div className="p-6 border-b border-white/5 flex items-start justify-between gap-4">
+                                <div>
+                                    <h2 className="text-2xl font-bold text-white">{rt.title}</h2>
+                                    <p className="text-zinc-400 text-sm mt-1">{reviewsProduct.title}</p>
+                                    <div className="flex items-center gap-2 mt-2">
+                                        <Stars value={reviewStats(reviewsProduct.id).avg} className="w-5 h-5" />
+                                        <span className="text-white font-bold">{reviewStats(reviewsProduct.id).avg.toFixed(1)}</span>
+                                        <span className="text-zinc-500 text-sm">({reviewStats(reviewsProduct.id).list.length})</span>
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={() => setReviewsProduct(null)}
+                                    className="p-2 hover:bg-white/5 rounded-full transition-colors"
+                                >
+                                    <X className="w-6 h-6 text-zinc-400" />
+                                </button>
+                            </div>
+                            <div className="overflow-y-auto p-6 space-y-6">
+                                {reviewStats(reviewsProduct.id).list.map(r => (
+                                    <div key={r.id} className="space-y-2 border-b border-white/5 pb-6 last:border-0 last:pb-0">
+                                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                                            <span className="text-white font-bold">{r.name}</span>
+                                            <span className="text-[10px] uppercase tracking-widest text-primary font-bold flex items-center gap-1">
+                                                <CheckCircle2 className="w-3 h-3" /> {rt.verified}
+                                            </span>
+                                            <span className="text-xs text-zinc-500 ml-auto">
+                                                {new Date(r.createdAt).toLocaleDateString(lang)}
+                                            </span>
+                                        </div>
+                                        <Stars value={r.rating} />
+                                        <p className="text-zinc-300 text-sm whitespace-pre-line">{r.text}</p>
+                                    </div>
+                                ))}
+                            </div>
                         </motion.div>
                     </div>
                 )}
